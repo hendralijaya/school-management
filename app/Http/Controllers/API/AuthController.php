@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
     /**
      * Register a new user.
      *
@@ -27,7 +32,7 @@ class AuthController extends Controller
             'password' => Hash::make($validatedData['password']),
         ]);
 
-        return response()->api(null, ['message' => 'User created successfully'], null, 201);
+        return response()->api($user, 'User created successfully', null, 201);
     }
 
     /**
@@ -40,14 +45,19 @@ class AuthController extends Controller
     {
         $validatedData = $request->validated();
 
-        if (!Auth::attempt($validatedData)) {
-            return response()->api(null, ['message' => 'Invalid credentials'], ['error' => 'Invalid credentials'], 401);
+        $token = Auth::attempt($validatedData);
+        if (!$token) {
+            return response()->api(null, 'Invalid credentials', 'Unauthorized', 401);
         }
 
         $user = $request->user();
-        $token = $user->createToken('authToken')->plainTextToken;
 
-        return response()->api(null, ['access_token' => $token]);
+        return response()->api([
+            'user' => $user, 'authorization' => [
+                "token" => $token,
+                "type" => "bearer",
+            ]
+        ], "User logged in successfully", null, 200);
     }
 
     /**
@@ -58,7 +68,18 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
-        return response()->json(null, ['message' => 'Logged out successfully'], [], 200);
+        Auth::logout();
+        return response()->api(null, 'Logged out successfully', null, 200);
+    }
+
+    public function refresh()
+    {
+        return response()->api([
+            'user' => Auth::user(),
+            'authorisation' => [
+                'token' => Auth::refresh(),
+                'type' => 'bearer',
+            ]
+        ], "Refresh token", null, 200);
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
+    private $table = 'role';
     use HasFactory;
     public $timestamps = true;
 

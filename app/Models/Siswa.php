@@ -4,19 +4,19 @@ namespace App\Models;
 
 use App\Models\OrangTua;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Siswa extends Model
 {
-    use HasFactory;
+    protected $table = 'siswa';
     public $timestamps = false;
+    use HasFactory;
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'siswa';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -31,6 +31,7 @@ class Siswa extends Model
         'alamat',
         'status',
         'user_id',
+        'orang_tua_id'
     ];
 
     public function user()
@@ -40,6 +41,31 @@ class Siswa extends Model
 
     public function orangTua()
     {
-        return $this->hasOne(OrangTua::class);
+        return $this->belongsTo(OrangTua::class);
+    }
+
+    public function scopeFilterByStatus(Builder $query, string $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeFilterByGender(Builder $query, string $gender)
+    {
+        return $query->where('gender', $gender);
+    }
+
+    public function scopeFilterByTanggalBergabung(Builder $query, $from, $to)
+    {
+        return $query->whereBetween('tgl_bergabung', [$from, $to]);
+    }
+
+    public function scopeSearch(Builder $query, $keyword)
+    {
+        return $query->where(function ($query) use ($keyword) {
+            $searchQuery = '%' . $keyword . '%';
+            $query->where('nama', 'LIKE', $searchQuery)
+                ->orWhere('no_wa', 'LIKE', $searchQuery)
+                ->orWhere('alamat', 'LIKE', $searchQuery);
+        });
     }
 }

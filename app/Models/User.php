@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'role_id',
+        'status',
     ];
 
     /**
@@ -70,5 +72,20 @@ class User extends Authenticatable implements JWTSubject
             'email' => $this->email,
             'role_id' => $this->role_id,
         ];
+    }
+
+    public function scopeFilterByRoleId(Builder $query, $roleId)
+    {
+        return $query->where('role_id', $roleId);
+    }
+
+    public function scopeFilterByStatus(Builder $query, $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeSearch(Builder $query, $keyword)
+    {
+        return $query->where('email', 'LIKE', "%{$keyword}%");
     }
 }

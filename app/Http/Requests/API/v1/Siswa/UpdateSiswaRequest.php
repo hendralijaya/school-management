@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Siswa;
+namespace App\Http\Requests\API\v1\Siswa;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,6 +23,7 @@ class UpdateSiswaRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // siswa
             'nama' => 'required',
             'no_wa' => 'required',
             'gender' => 'required',
@@ -30,7 +31,7 @@ class UpdateSiswaRequest extends FormRequest
             'tgl_lahir' => 'required',
             'alamat' => 'required',
             'status' => 'required',
-            'user_id' => 'required',
+            'orang_tua_id' => 'required|integer|exists:orang_tua,id',
         ];
     }
 }

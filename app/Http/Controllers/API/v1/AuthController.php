@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\API\v1;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\RegisterRequest;
+use App\Http\Requests\API\v1\Auth\LoginRequest;
+use App\Http\Requests\API\v1\Auth\RegisterRequest;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -62,7 +61,7 @@ class AuthController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout(Request $request)
+    public function logout()
     {
         // Revoke the token that was used to authenticate the current request...
         Auth::logout();
@@ -78,10 +77,5 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ]
         ], "Refresh token", null, 200);
-    }
-
-    public function test()
-    {
-        return JWTAuth::parseToken()->authenticate();
     }
 }

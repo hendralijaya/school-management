@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Guru;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class GuruSeeder extends Seeder
@@ -17,6 +16,6 @@ class GuruSeeder extends Seeder
         Guru::query()->delete();
 
         // // Creating 5 guru
-        Guru::factory()->count(5)->create();
+        Guru::factory()->count(50)->create();
     }
 }

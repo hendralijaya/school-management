@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->length(100);
-            $table->string('no_wa')->length(15);
+            $table->string('no_wa')->length(15)->unique();
             $table->char('gender')->length(1);
             $table->date('tgl_bergabung');
             $table->date('tgl_lahir');

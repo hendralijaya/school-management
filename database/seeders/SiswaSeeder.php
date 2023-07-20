@@ -15,7 +15,7 @@ class SiswaSeeder extends Seeder
         // // Clearing siswa table
         Siswa::query()->delete();
 
-        // // Creating 5 siswas
-        Siswa::factory()->count(5)->create();
+        // // Creating siswa
+        Siswa::factory()->count(50)->create();
     }
 }

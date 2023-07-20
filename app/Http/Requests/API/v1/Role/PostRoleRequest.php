@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\API\v1\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class PostRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,8 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|email|unique:user',
-            'password' => 'required|string|confirmed',
-            'password_confirmation' => 'required|string',
+            'nama' => 'required|string|unique:role',
+            'status' => 'required|string',
         ];
     }
 }

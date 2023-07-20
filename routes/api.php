@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\SiswaController;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,13 +16,20 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
+// Authentication routes (No jwt.role middleware)
 Route::prefix('v1/auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/test', [AuthController::class, 'test']);
+});
+
+// Routes that require role-based authorization
+Route::middleware('jwt.role:Admin')->prefix('v1/siswa')->group(function () {
+    Route::get('/', [SiswaController::class, 'index']);
+    Route::get('/{id}', [SiswaController::class, 'show']);
+    Route::post('/', [SiswaController::class, 'store']);
+    Route::put('/{id}', [SiswaController::class, 'update']);
+    Route::delete('/{id}', [SiswaController::class, 'destroy']);
 });

@@ -2,21 +2,21 @@
 
 namespace Database\Seeders;
 
+use App\Models\Guru;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\User;
 
-class UserSeeder extends Seeder
+class GuruSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        // // Clearing user table
-        // User::truncate();
+        // // Clearing guru table
+        Guru::query()->delete();
 
-        // // Creating 5 users
-        // User::factory()->count(5)->create();
+        // // Creating 5 guru
+        Guru::factory()->count(5)->create();
     }
 }

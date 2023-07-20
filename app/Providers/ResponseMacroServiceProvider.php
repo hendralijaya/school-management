@@ -15,7 +15,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
         'message' => $message,
         'error' => $error,
         'statusCode' => $statusCode,
-      ]);
+      ])->setStatusCode($statusCode);
     });
   }
 }

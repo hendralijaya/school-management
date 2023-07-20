@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role', function (Blueprint $table) {
+        Schema::create('orang_tua', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->unique()->length(50);
-            $table->char('status')->default('A');
+            $table->string('nama')->length(100);
+            $table->string('no_wa')->length(15);
+            $table->char('gender')->length(1);
+            $table->date('tgl_lahir');
+            $table->text('alamat');
+            $table->char('status')->length(1)->default('A');
         });
     }
 
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('orang_tua');
     }
 };

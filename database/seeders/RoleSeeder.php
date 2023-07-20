@@ -14,19 +14,21 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         // Clear existing roles (optional)
-        Role::truncate();
+        Role::query()->delete();
 
         // Define role names
         $roles = [
             'Admin',
             'Pelajar / Student',
             'Guru / Teacher',
+            'Orang Tua / Parent',
         ];
 
         // Create role records
         foreach ($roles as $role) {
             Role::create([
-                'name' => $role,
+                'nama' => $role,
+                'status' => 'A',
             ]);
         }
     }

@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -16,39 +17,34 @@ class AuthController extends Controller
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
-    /**
-     * Register a new user.
-     *
-     * @param  RegisterRequest  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function register(RegisterRequest $request)
     {
         $validatedData = $request->validated();
 
         $user = User::create([
-            'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
+            'role_id' => 1,
         ]);
 
         return response()->api($user, 'User created successfully', null, 201);
     }
 
-    /**
-     * Login user and generate access token.
-     *
-     * @param  LoginRequest  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function login(LoginRequest $request)
     {
         $validatedData = $request->validated();
-
-        $token = Auth::attempt($validatedData);
+        $user = User::where('email', $validatedData['email'])->first();
+        $token = JWTAuth::claims(['email' => $user->email, 'role_id' => $user->role_id])->attempt($validatedData);
         if (!$token) {
             return response()->api(null, 'Invalid credentials', 'Unauthorized', 401);
         }
+
+        // $token = JWTAuth::fromUser($user, ['email' => $user->email, 'role_id' => $user->role_id]);
+        // // verify token validity
+        // if (!JWTAuth::check($token)) {
+        //     return response()->api(null, 'Invalid token', 'Unauthorized', 401);
+        // }
 
         $user = $request->user();
 
@@ -68,6 +64,7 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        // Revoke the token that was used to authenticate the current request...
         Auth::logout();
         return response()->api(null, 'Logged out successfully', null, 200);
     }
@@ -81,5 +78,10 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ]
         ], "Refresh token", null, 200);
+    }
+
+    public function test()
+    {
+        return JWTAuth::parseToken()->authenticate();
     }
 }

@@ -163,6 +163,7 @@ return [
         /*
          * Application Service Providers...
          */
+        Vyuldashev\LaravelOpenApi\OpenApiServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,

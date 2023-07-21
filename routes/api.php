@@ -8,6 +8,7 @@ use App\Http\Controllers\API\v1\UserController;
 use App\Http\Controllers\API\v1\RuangController;
 use App\Http\Controllers\API\v1\SiswaController;
 use App\Http\Controllers\API\v1\OrangTuaController;
+use App\Http\Controllers\API\v1\MataPelajaranController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,8 +25,11 @@ use App\Http\Controllers\API\v1\OrangTuaController;
 Route::prefix('v1/auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh', [AuthController::class, 'refresh']);
+    // Protected routes (With jwt.role middleware)
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+    });
 });
 
 // Routes that require role-based authorization
@@ -74,4 +78,12 @@ Route::middleware('jwt.role:Admin')->prefix('v1/ruang')->group(function () {
     Route::post('/', [RuangController::class, 'store']);
     Route::put('/{ruang}', [RuangController::class, 'update']);
     Route::delete('/{ruang}', [RuangController::class, 'deactivate']);
+});
+
+Route::middleware('jwt.role:Admin')->prefix('v1/mata-pelajaran')->group(function () {
+    Route::get('/', [MataPelajaranController::class, 'index']);
+    Route::get('/{mataPelajaran}', [MataPelajaranController::class, 'show']);
+    Route::post('/', [MataPelajaranController::class, 'store']);
+    Route::put('/{mataPelajaran}', [MataPelajaranController::class, 'update']);
+    Route::delete('/{mataPelajaran}', [MataPelajaranController::class, 'deactivate']);
 });

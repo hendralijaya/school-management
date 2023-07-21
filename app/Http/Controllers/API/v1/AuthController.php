@@ -17,9 +17,6 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 #[OpenApi\PathItem]
 class AuthController extends Controller
 {
-    // middleware auth:api except login and register
-    // how to add to openapi documentation
-
     // #[OpenApi\Operation(tags: ['auth'], method: 'post')]
     public function register(RegisterRequest $request)
     {

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MataPelajaran extends Model
 {
@@ -15,4 +16,19 @@ class MataPelajaran extends Model
     ];
     public $timestamps = false;
     use HasFactory;
+
+    public function scopeFilterByStatus(Builder $query, string $status)
+    {
+        return $query->where('status', $status);
+    }
+
+    public function scopeSearch(Builder $query, string $search)
+    {
+        return $query->where('nama', 'like', "%$search%");
+    }
+
+    public function scopeFilterByCategory(Builder $query, string $kategori)
+    {
+        return $query->where('kategori', $kategori);
+    }
 }

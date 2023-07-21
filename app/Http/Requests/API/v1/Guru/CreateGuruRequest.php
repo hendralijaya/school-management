@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\API\v1\OrangTua;
+namespace App\Http\Requests\API\v1\Guru;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostOrangTuaRequest extends FormRequest
+class CreateGuruRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,19 @@ class PostOrangTuaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // User
+            // user
             'email' => 'required|string|email|unique:user',
             'password' => 'required|string|min:6',
-            // Orang Tua
-            'nama' => 'required|string',
-            'no_wa' => 'required|string|max:15',
-            'gender' => 'required|string',
-            'tgl_lahir' => 'required|string',
-            'alamat' => 'required|string',
-            'status' => 'required|string',
+
+            // guru
+            'tipe' => 'required',
+            'nama' => 'required',
+            'no_wa' => 'required',
+            'gender' => 'required',
+            'tgl_bergabung' => 'required',
+            'tgl_lahir' => 'required',
+            'alamat' => 'required',
+            'status' => 'required',
         ];
     }
 }

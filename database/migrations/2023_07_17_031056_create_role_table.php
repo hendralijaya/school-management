@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('role', function (Blueprint $table) {
             $table->id();
             $table->string('nama')->unique()->length(50);
-            $table->char('status')->default('A');
+            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 

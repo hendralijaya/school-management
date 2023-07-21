@@ -24,6 +24,7 @@ class GuruFactory extends Factory
         // Add the international code at the beginning (+62 for Indonesia)
         $phoneNumber = '+62' . substr($phoneNumber, 1);
         return [
+            'tipe' => $faker->randomElement(['Guru Tetap', 'Guru Honorer']),
             'nama' => $faker->name,
             'no_wa' => $phoneNumber,
             'gender' => $faker->randomElement(['M', 'F']),

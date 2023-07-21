@@ -5,7 +5,7 @@ namespace App\Http\Requests\API\v1\Siswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostSiswaRequest extends FormRequest
+class CreateSiswaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

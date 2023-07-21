@@ -6,15 +6,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\API\v1\User\PostUserRequest;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use App\Http\Requests\API\v1\User\UpdateUserRequest;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\OpenApi\Parameters\API\v1\User\ListUserParameters;
+use App\OpenApi\RequestBodies\API\v1\User\UpdateUserRequestBody;
 
+#[OpenApi\PathItem]
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    #[OpenApi\Operation(tags: ['user'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListUserParameters::class)]
     public function index(Request $request)
     {
         $filters = [
@@ -58,9 +63,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(String $userId)
+    #[OpenApi\Operation(tags: ['user'], method: 'get', security: JWTSecurityScheme::class)]
+    public function show(User $user)
     {
-        $user = User::find($userId);
+        $user = User::find($user->id);
 
         if (!$user) {
             return response()->api(null, 'Data user tidak ditemukan', null, Response::HTTP_NOT_FOUND);
@@ -72,6 +78,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    #[OpenApi\Operation(tags: ['user'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateUserRequestBody::class)]
     public function update(UpdateUserRequest $request, String $userId)
     {
         $validatedData = $request->validated();
@@ -90,9 +98,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deactivate(String $userId)
+    #[OpenApi\Operation(null, tags: ['user'], method: 'delete', security: JWTSecurityScheme::class)]
+    public function deactivate(User $user)
     {
-        $user = User::find($userId);
+        $user = User::find($user->id);
 
         if (!$user) {
             return response()->api(null, 'Data user tidak ditemukan', null, Response::HTTP_NOT_FOUND);

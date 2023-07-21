@@ -5,6 +5,7 @@ use App\Http\Controllers\API\v1\AuthController;
 use App\Http\Controllers\API\v1\GuruController;
 use App\Http\Controllers\API\v1\RoleController;
 use App\Http\Controllers\API\v1\UserController;
+use App\Http\Controllers\API\v1\RuangController;
 use App\Http\Controllers\API\v1\SiswaController;
 use App\Http\Controllers\API\v1\OrangTuaController;
 
@@ -25,45 +26,52 @@ Route::prefix('v1/auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/test', [AuthController::class, 'test']);
 });
 
 // Routes that require role-based authorization
 Route::middleware('jwt.role:Admin')->prefix('v1/user')->group(function () {
     Route::get('/', [UserController::class, 'index']);
-    Route::get('/{userId}', [UserController::class, 'show']);
-    Route::put('/{userId}', [UserController::class, 'update']);
-    Route::delete('/{userId}', [UserController::class, 'deactivate']);
+    Route::get('/{user}', [UserController::class, 'show']);
+    Route::put('/{user}', [UserController::class, 'update']);
+    Route::delete('/{user}', [UserController::class, 'deactivate']);
 });
 
 Route::middleware('jwt.role:Admin')->prefix('v1/role')->group(function () {
     Route::get('/', [RoleController::class, 'index']);
-    Route::get('/{roleId}', [RoleController::class, 'show']);
+    Route::get('/{role}', [RoleController::class, 'show']);
     Route::post('/', [RoleController::class, 'store']);
-    Route::put('/{roleId}', [RoleController::class, 'update']);
-    Route::delete('/{roleId}', [RoleController::class, 'deactivate']);
+    Route::put('/{role}', [RoleController::class, 'update']);
+    Route::delete('/{role}', [RoleController::class, 'deactivate']);
 });
 
 Route::middleware('jwt.role:Admin')->prefix('v1/siswa')->group(function () {
     Route::get('/', [SiswaController::class, 'index']);
-    Route::get('/{siswaId}', [SiswaController::class, 'show']);
+    Route::get('/{siswa}', [SiswaController::class, 'show']);
     Route::post('/', [SiswaController::class, 'store']);
-    Route::put('/{siswaId}', [SiswaController::class, 'update']);
-    Route::delete('/{siswaId}', [SiswaController::class, 'deactivate']);
+    Route::put('/{siswa}', [SiswaController::class, 'update']);
+    Route::delete('/{siswa}', [SiswaController::class, 'deactivate']);
 });
 
 Route::middleware('jwt.role:Admin')->prefix('v1/guru')->group(function () {
     Route::get('/', [GuruController::class, 'index']);
-    Route::get('/{guruId}', [GuruController::class, 'show']);
+    Route::get('/{guru}', [GuruController::class, 'show']);
     Route::post('/', [GuruController::class, 'store']);
-    Route::put('/{guruId}', [GuruController::class, 'update']);
-    Route::delete('/{guruId}', [GuruController::class, 'deactivate']);
+    Route::put('/{guru}', [GuruController::class, 'update']);
+    Route::delete('/{guru}', [GuruController::class, 'deactivate']);
 });
 
 Route::middleware('jwt.role:Admin')->prefix('v1/orang-tua')->group(function () {
     Route::get('/', [OrangTuaController::class, 'index']);
-    Route::get('/{orangTuaId}', [OrangTuaController::class, 'show']);
+    Route::get('/{orangTua}', [OrangTuaController::class, 'show']);
     Route::post('/', [OrangTuaController::class, 'store']);
-    Route::put('/{orangTuaId}', [OrangTuaController::class, 'update']);
-    Route::delete('/{orangTuaId}', [OrangTuaController::class, 'deactivate']);
+    Route::put('/{orangTua}', [OrangTuaController::class, 'update']);
+    Route::delete('/{orangTua}', [OrangTuaController::class, 'deactivate']);
+});
+
+Route::middleware('jwt.role:Admin')->prefix('v1/ruang')->group(function () {
+    Route::get('/', [RuangController::class, 'index']);
+    Route::get('/{ruang}', [RuangController::class, 'show']);
+    Route::post('/', [RuangController::class, 'store']);
+    Route::put('/{ruang}', [RuangController::class, 'update']);
+    Route::delete('/{ruang}', [RuangController::class, 'deactivate']);
 });

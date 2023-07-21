@@ -23,6 +23,7 @@ class UpdateGuruRequest extends FormRequest
     {
         return [
             // guru
+            'tipe' => 'required',
             'nama' => 'required',
             'no_wa' => 'required',
             'gender' => 'required',

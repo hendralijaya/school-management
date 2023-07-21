@@ -27,6 +27,10 @@ class UpdateUserRequest extends FormRequest
                 'required',
                 'string',
             ],
+            'role_id' => [
+                'required',
+                'integer',
+            ],
         ];
     }
 }

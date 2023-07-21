@@ -1,0 +1,895 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Laravel",
+        "description": "Laravel OpenApi generator demo",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Logout user and revoke access token.",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/refresh": {
+            "post": {
+                "tags": ["auth"],
+                "summary": "Refresh user token.",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user": {
+            "get": {
+                "tags": ["user"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "role_id",
+                        "in": "query",
+                        "description": "Filter by role id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by email",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/user/{user}": {
+            "get": {
+                "tags": ["user"],
+                "summary": "Display the specified resource.",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["user"],
+                "summary": "Update the specified resource in storage.",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "User update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUser"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["user"],
+                "summary": "Remove the specified resource from storage.",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/role": {
+            "get": {
+                "tags": ["role"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["active", "inactive"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["role"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Role create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRole"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/role/{role}": {
+            "get": {
+                "tags": ["role"],
+                "summary": "Display the specified resource.",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["role"],
+                "summary": "Update the specified resource in storage.",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Role update",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRole"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["role"],
+                "summary": "Remove the specified resource from storage.",
+                "parameters": [
+                    {
+                        "name": "role",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/siswa": {
+            "get": {
+                "tags": ["siswa"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "Filter by gender",
+                        "required": false,
+                        "schema": {
+                            "enum": [["M", "F"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tgl_bergabung_from && tgl_bergabung_to",
+                        "in": "query",
+                        "description": "Filter By Tanggal Bergabung",
+                        "required": false,
+                        "schema": {
+                            "default": "2019-01-01",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["siswa"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Siswa create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateSiswa"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/siswa/{siswa}": {
+            "get": {
+                "tags": ["siswa"],
+                "summary": "Display the specified resource.",
+                "parameters": [
+                    {
+                        "name": "siswa",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["siswa"],
+                "summary": "Update the specified resource in storage.",
+                "parameters": [
+                    {
+                        "name": "siswa",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Siswa create",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateSiswa"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["siswa"],
+                "summary": "Remove the specified resource from storage.",
+                "parameters": [
+                    {
+                        "name": "siswa",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/guru": {
+            "get": {
+                "tags": ["guru"],
+                "summary": "Display a listing of the resource.",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["guru"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Create Guru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateGuru"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/guru/{guru}": {
+            "get": {
+                "tags": ["guru"],
+                "summary": "Display the specified resource.",
+                "parameters": [
+                    {
+                        "name": "guru",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["guru"],
+                "summary": "Update the specified resource in storage.",
+                "parameters": [
+                    {
+                        "name": "guru",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update Guru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateGuru"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["guru"],
+                "summary": "Remove the specified resource from storage.",
+                "parameters": [
+                    {
+                        "name": "guru",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orang-tua": {
+            "get": {
+                "tags": ["orang-tua"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "Filter by gender",
+                        "required": false,
+                        "schema": {
+                            "enum": [["M", "F"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["orang-tua"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Create Orang Tua",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateOrangTua"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orang-tua/{orangTua}": {
+            "get": {
+                "tags": ["orang-tua"],
+                "summary": "Display the specified resource.",
+                "parameters": [
+                    {
+                        "name": "orangTua",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["orang-tua"],
+                "summary": "Update the specified resource in storage.",
+                "parameters": [
+                    {
+                        "name": "orangTua",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": [],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["orang-tua"],
+                "summary": "Remove the specified resource from storage.",
+                "parameters": [
+                    {
+                        "name": "orangTua",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CreateGuru": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nama": {
+                        "type": "string"
+                    },
+                    "no_wa": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "tgl_bergabung": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "tgl_lahir": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "enum": ["A", "D"],
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateGuru": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "no_wa": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "tgl_bergabung": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "tgl_lahir": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "enum": ["A", "D"],
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateOrangTua": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nama": {
+                        "type": "string"
+                    },
+                    "no_wa": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "tgl_lahir": {
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "enum": ["A", "D"],
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateOrangTua": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "no_wa": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "type": "string"
+                    },
+                    "tgl_lahir": {
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "enum": ["A", "D"],
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateRole": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "default": "Admin",
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": "A",
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateRole": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "default": "Admin Test",
+                        "type": "string"
+                    },
+                    "status": {
+                        "default": "D",
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateSiswa": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "nama": {
+                        "type": "string"
+                    },
+                    "no_wa": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "enum": ["M", "F"],
+                        "type": "string"
+                    },
+                    "tgl_bergabung": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "tgl_lahir": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "enum": ["A", "D"],
+                        "type": "string"
+                    },
+                    "orang_tua_id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "UpdateSiswa": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "no_wa": {
+                        "type": "string"
+                    },
+                    "gender": {
+                        "enum": ["M", "F"],
+                        "type": "string"
+                    },
+                    "tgl_bergabung": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "tgl_lahir": {
+                        "format": "date",
+                        "type": "string"
+                    },
+                    "alamat": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "enum": ["A", "D"],
+                        "type": "string"
+                    },
+                    "orang_tua_id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "UpdateUser": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "default": "A",
+                        "type": "string"
+                    },
+                    "role_id": {
+                        "default": "1",
+                        "type": "integer"
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "JWT": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "JWT": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "auth",
+            "description": "Authentication"
+        },
+        {
+            "name": "user",
+            "description": "CRUD User"
+        },
+        {
+            "name": "role",
+            "description": "CRUD Role"
+        },
+        {
+            "name": "siswa",
+            "description": "CRUD Siswa"
+        },
+        {
+            "name": "guru",
+            "description": "CRUD Guru"
+        },
+        {
+            "name": "orang-tua",
+            "description": "CRUD Orang Tua"
+        }
+    ]
+}

@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('guru', function (Blueprint $table) {
             $table->id();
+            $table->string('tipe', 20)->default('Guru Tetap');
             $table->string('nama')->length(100);
             $table->string('no_wa')->length(15)->unique();
             $table->char('gender')->length(1);
             $table->date('tgl_bergabung');
             $table->date('tgl_lahir');
             $table->text('alamat');
-            $table->char('status')->length(1)->default('A');
+            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 

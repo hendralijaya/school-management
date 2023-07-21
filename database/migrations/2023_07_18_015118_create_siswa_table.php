@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('tgl_bergabung');
             $table->date('tgl_lahir');
             $table->text('alamat');
-            $table->char('status')->length(1)->default('A');
+            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 

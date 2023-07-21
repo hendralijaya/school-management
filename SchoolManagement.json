@@ -4,18 +4,44 @@
         "title": "School Management API",
         "version": "1.0"
     },
-    "servers": [{ "url": "https://localhost:8000" }],
+    "servers": [
+        {
+            "url": "https://localhost:8000"
+        }
+    ],
     "paths": {
         "/api/v1/auth/login": {
             "post": {
                 "tags": ["Auth"],
                 "summary": "Login",
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_200"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_401"
+                                }
                             }
                         }
                     }
@@ -27,11 +53,43 @@
                 "tags": ["Auth"],
                 "summary": "Register",
                 "requestBody": {
-                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/Register"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_201"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_400"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/inline_response_422"
+                                }
                             }
                         }
                     }
@@ -46,17 +104,15 @@
                 "properties": {
                     "email": {
                         "type": "string",
-                        "example": "hendra.lijaya@student.pradita.ac.id",
                         "description": "Email",
-                        "required": true,
-                        "format": "email"
+                        "format": "email",
+                        "example": "hendra.lijaya@student.pradita.ac.id"
                     },
                     "password": {
+                        "minLength": 6,
                         "type": "string",
-                        "example": "123456",
                         "description": "Password",
-                        "required": true,
-                        "minLength": 6
+                        "example": "123456"
                     }
                 }
             },
@@ -65,30 +121,78 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "example": "Hendra Lijaya",
                         "description": "Name",
-                        "required": true
+                        "example": "Hendra Lijaya"
                     },
                     "email": {
                         "type": "string",
-                        "example": "hendra.lijaya@student.pradita.ac.id",
                         "description": "Email",
-                        "required": true,
-                        "format": "email"
+                        "format": "email",
+                        "example": "hendra.lijaya@student.pradita.ac.id"
                     },
                     "password": {
+                        "minLength": 6,
                         "type": "string",
-                        "example": "123456",
                         "description": "Password",
-                        "required": true,
-                        "minLength": 6
+                        "example": "123456"
                     },
                     "password_confirmation": {
+                        "minLength": 6,
                         "type": "string",
-                        "example": "123456",
                         "description": "Password Confirmation",
-                        "required": true,
-                        "minLength": 6
+                        "example": "123456"
+                    }
+                }
+            },
+            "inline_response_200": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Logged in successfully"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "<JWT Token>"
+                    }
+                }
+            },
+            "inline_response_401": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Invalid credentials"
+                    }
+                }
+            },
+            "inline_response_201": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "User registered successfully"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/Register"
+                    }
+                }
+            },
+            "inline_response_400": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Invalid request data"
+                    }
+                }
+            },
+            "inline_response_422": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Validation error"
                     }
                 }
             }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->char("status")->length(1)->default("A");
+            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 

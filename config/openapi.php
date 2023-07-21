@@ -8,7 +8,7 @@ return [
 
             'info' => [
                 'title' => config('app.name'),
-                'description' => null,
+                'description' => 'Laravel OpenApi generator demo',
                 'version' => '1.0.0',
                 'contact' => [],
             ],
@@ -16,22 +16,44 @@ return [
             'servers' => [
                 [
                     'url' => env('APP_URL'),
-                    'description' => null,
+                    'description' => 'Local server',
                     'variables' => [],
                 ],
             ],
 
             'tags' => [
-
-                // [
-                //    'name' => 'user',
-                //    'description' => 'Application users',
-                // ],
-
+                [
+                    'name' => 'auth',
+                    'description' => 'Authentication',
+                ],
+                [
+                    'name' => 'user',
+                    'description' => 'CRUD User',
+                ],
+                [
+                    'name' => 'role',
+                    'description' => 'CRUD Role',
+                ],
+                [
+                    'name' => 'siswa',
+                    'description' => 'CRUD Siswa',
+                ],
+                [
+                    'name' => 'guru',
+                    'description' => 'CRUD Guru',
+                ],
+                [
+                    'name' => 'orang-tua',
+                    'description' => 'CRUD Orang Tua',
+                ],
+                [
+                    'name' => 'ruang',
+                    'description' => 'CRUD Ruang',
+                ]
             ],
 
             'security' => [
-                // GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
+                GoldSpecDigital\ObjectOrientedOAS\Objects\SecurityRequirement::create()->securityScheme('JWT'),
             ],
 
             // Non standard attributes used by code/doc generation tools can be added here
@@ -50,16 +72,18 @@ return [
             // Leave uri null to disable.
             'route' => [
                 'uri' => '/openapi',
-                'middleware' => [],
+                'middleware' => [
+                    // App\Http\Middleware\RedirectIfAuthenticated::class,
+                ],
             ],
 
             // Register custom middlewares for different objects.
             'middlewares' => [
                 'paths' => [
-                    //
+                    // App\Http\Middleware\Authenticate::class,
                 ],
                 'components' => [
-                    //
+                    // App\Http\Middleware\Authenticate::class,
                 ],
             ],
 

@@ -1,0 +1,5 @@
+php artisan openapi:make-parameters API/v1/Ruang/ListRuangParameters
+php artisan openapi:make-requestbody API/v1/Ruang/CreateRuang
+php artisan openapi:make-requestbody API/v1/Ruang/UpdateRuang
+php artisan openapi:make-schema API/v1/Ruang/CreateRuang
+php artisan openapi:make-schema API/v1/Ruang/UpdateRuang

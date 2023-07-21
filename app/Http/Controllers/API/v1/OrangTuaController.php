@@ -8,14 +8,22 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\API\v1\OrangTua\PostOrangTuaRequest;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\Http\Requests\API\v1\OrangTua\CreateOrangTuaRequest;
 use App\Http\Requests\API\v1\OrangTua\UpdateOrangTuaRequest;
+use App\OpenApi\Parameters\API\v1\OrangTua\ListOrangTuaParameters;
+use App\OpenApi\RequestBodies\API\v1\OrangTua\CreateOrangTuaRequestBody;
+use App\OpenApi\RequestBodies\API\v1\OrangTua\UpdateOrangTuaRequestBody;
 
+#[OpenApi\PathItem]
 class OrangTuaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    #[OpenApi\Operation(tags: ['orang-tua'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListOrangTuaParameters::class)]
     public function index(Request $request)
     {
         $filters = [
@@ -43,7 +51,9 @@ class OrangTuaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostOrangTuaRequest $request)
+    #[OpenApi\Operation(tags: ['orang-tua'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateOrangTuaRequestBody::class)]
+    public function store(CreateOrangTuaRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -69,9 +79,10 @@ class OrangTuaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $orangTuaId)
+    #[OpenApi\Operation(tags: ['orang-tua'], method: 'get', security: JWTSecurityScheme::class)]
+    public function show(OrangTua $orangTua)
     {
-        $orangTua = OrangTua::find($orangTuaId);
+        $orangTua = OrangTua::find($orangTua->id);
         if (!$orangTua) {
             return response()->api(null, 'Orang tua tidak ditemukan', null, Response::HTTP_NOT_FOUND);
         }
@@ -82,11 +93,13 @@ class OrangTuaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrangTuaRequest $request, string $orangTuaId)
+    #[OpenApi\Operation(tags: ['orang-tua'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateOrangTuaRequestBody::class)]
+    public function update(UpdateOrangTuaRequest $request, OrangTua $orangTua)
     {
         $validatedData = $request->validated();
 
-        $orangTua = OrangTua::find($orangTuaId);
+        $orangTua = OrangTua::find($orangTua->id);
 
         if (!$orangTua) {
             return response()->api(null, 'Orang tua tidak ditemukan', null, Response::HTTP_NOT_FOUND);
@@ -107,9 +120,10 @@ class OrangTuaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deactivate(string $orangTuaId)
+    #[OpenApi\Operation(tags: ['orang-tua'], method: 'delete', security: JWTSecurityScheme::class)]
+    public function deactivate(OrangTua $orangTua)
     {
-        $orangTua = OrangTua::find($orangTuaId);
+        $orangTua = OrangTua::find($orangTua->id);
         if (!$orangTua) {
             return response()->api(null, 'Orang tua tidak ditemukan', null, Response::HTTP_NOT_FOUND);
         }

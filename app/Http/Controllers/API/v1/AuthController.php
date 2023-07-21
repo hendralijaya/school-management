@@ -7,16 +7,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\API\v1\Auth\LoginRequest;
-use App\Http\Requests\API\v1\Auth\RegisterRequest;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use App\Http\Requests\API\v1\Auth\RegisterRequest;
+// use App\OpenApi\RequestBodies\API\v1\Auth\LoginRequestBody;
+// use App\OpenApi\RequestBodies\API\v1\Auth\RegisterRequestBody;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
+#[OpenApi\PathItem]
 class AuthController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
+    // middleware auth:api except login and register
+    // how to add to openapi documentation
 
+    // #[OpenApi\Operation(tags: ['auth'], method: 'post')]
     public function register(RegisterRequest $request)
     {
         $validatedData = $request->validated();
@@ -30,6 +34,8 @@ class AuthController extends Controller
         return response()->api($user, 'User created successfully', null, 201);
     }
 
+    // #[OpenApi\Operation(null, ['auth'], JWTSecurityScheme::class, 'POST', null)]
+    // #[OpenApi\RequestBody(factory: LoginRequestBody::class)]
     public function login(LoginRequest $request)
     {
         $validatedData = $request->validated();
@@ -61,6 +67,7 @@ class AuthController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
+    #[OpenApi\Operation(null, ['auth'], JWTSecurityScheme::class, 'POST', null)]
     public function logout()
     {
         // Revoke the token that was used to authenticate the current request...
@@ -68,6 +75,13 @@ class AuthController extends Controller
         return response()->api(null, 'Logged out successfully', null, 200);
     }
 
+    /**
+     * Refresh user token.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    #[OpenApi\Operation(null, ['auth'], JWTSecurityScheme::class, 'POST', null)]
     public function refresh()
     {
         return response()->api([
@@ -77,5 +91,10 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ]
         ], "Refresh token", null, 200);
+    }
+    #[OpenApi\Operation(null, ['auth'], JWTSecurityScheme::class, 'GET', null)]
+    public function test()
+    {
+        return response()->api(null, 'Test', null, 200);
     }
 }

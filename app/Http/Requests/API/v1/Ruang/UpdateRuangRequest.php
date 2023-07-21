@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\API\v1\User;
+namespace App\Http\Requests\API\v1\Ruang;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostUserRequest extends FormRequest
+class UpdateRuangRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +22,9 @@ class PostUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|unique:user',
-            'password' => 'required|min:6',
-            'status' => [
-                'required',
-                'string',
-                'max:1',
-                Rule::in(['D', 'A']),
-            ],
+            'nama' => 'required|string',
+            'kapasitas' => 'required|integer',
+            'status' => 'required|string|in:A,D',
         ];
     }
 }

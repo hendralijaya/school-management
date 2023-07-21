@@ -8,15 +8,22 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\API\v1\Siswa\PostSiswaRequest;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\Http\Requests\API\v1\Siswa\CreateSiswaRequest;
 use App\Http\Requests\API\v1\Siswa\UpdateSiswaRequest;
+use App\OpenApi\Parameters\API\v1\Siswa\ListSiswaParameters;
+use App\OpenApi\RequestBodies\API\v1\Siswa\CreateSiswaRequestBody;
 
+#[OpenApi\PathItem]
 class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
 
+    #[OpenApi\Operation(tags: ['siswa'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListSiswaParameters::class)]
     public function index(Request $request)
     {
         $filters = [
@@ -47,11 +54,12 @@ class SiswaController extends Controller
         return response()->api($siswa, 'Berhasil mendapatkan data siswa', null, Response::HTTP_OK);
     }
 
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostSiswaRequest $request)
+    #[OpenApi\Operation(tags: ['siswa'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateSiswaRequestBody::class)]
+    public function store(CreateSiswaRequest $request)
     {
         $validatedData = $request->validated();
         // seperate data siswa and data user
@@ -79,9 +87,10 @@ class SiswaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $siswaId)
+    #[OpenApi\Operation(tags: ['siswa'], method: 'get', security: JWTSecurityScheme::class)]
+    public function show(Siswa $siswa)
     {
-        $siswa = Siswa::with('user')->find($siswaId);
+        $siswa = Siswa::with('user')->find($siswa->id);
         if (!$siswa) {
             return response()->api(null, 'Data siswa tidak ditemukan', 'Not Found', Response::HTTP_NOT_FOUND);
         }
@@ -99,11 +108,13 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSiswaRequest $request, string $siswaId)
+    #[OpenApi\Operation(tags: ['siswa'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateSiswaRequestBody::class)]
+    public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
         $validatedData = $request->validated();
 
-        $siswa = Siswa::find($siswaId);
+        $siswa = Siswa::find($siswa->id);
         if (!$siswa) {
             return response()->api(null, 'Data siswa tidak ditemukan', 'Not Found', Response::HTTP_NOT_FOUND);
         }
@@ -124,9 +135,10 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deactivate(string $siswaId)
+    #[OpenApi\Operation(tags: ['siswa'], method: 'delete', security: JWTSecurityScheme::class)]
+    public function deactivate(Siswa $siswa)
     {
-        $siswa = Siswa::find($siswaId);
+        $siswa = Siswa::find($siswa->id);
         if (!$siswa) {
             return response()->api(null, 'Data siswa tidak ditemukan', 'Not Found', Response::HTTP_NOT_FOUND);
         }

@@ -6,17 +6,36 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\v1\Role\PostRoleRequest;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use App\Http\Requests\API\v1\Role\CreateRoleRequest;
 use App\Http\Requests\API\v1\Role\UpdateRoleRequest;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\OpenApi\Parameters\API\v1\Role\ListRoleParameters;
+use App\OpenApi\RequestBodies\API\v1\Role\CreateRoleRequestBody;
+use App\OpenApi\RequestBodies\API\v1\Role\UpdateRoleRequestBody;
 
+#[OpenApi\PathItem]
 class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    #[OpenApi\Operation(tags: ['role'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListRoleParameters::class)]
+    public function index(Request $request)
     {
-        $roles = Role::all();
+        $filters = [
+            'status' => $request->input('status'),
+            'search' => $request->input('search'),
+        ];
+
+        $perPage = 10; // Set your desired number of results per page.
+
+        $roleQuery = Role::query()
+            ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status))
+            ->when($filters['search'], fn ($query, $search) => $query->search($search));
+
+        $roles = $roleQuery->paginate($perPage);
 
         if ($roles->isEmpty()) {
             return response()->api(null, 'Tidak ada data role', null, Response::HTTP_NOT_FOUND);
@@ -28,7 +47,9 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostRoleRequest $request)
+    #[OpenApi\Operation(tags: ['role'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateRoleRequestBody::class)]
+    public function store(CreateRoleRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -43,9 +64,10 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $roleId)
+    #[OpenApi\Operation(tags: ['role'], method: 'get', security: JWTSecurityScheme::class)]
+    public function show(Role $role)
     {
-        $role = Role::find($roleId);
+        $role = Role::find($role->id);
 
         if (!$role) {
             return response()->api(null, 'Data role tidak ditemukan', null, Response::HTTP_NOT_FOUND);
@@ -57,11 +79,13 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, string $roleId)
+    #[OpenApi\Operation(tags: ['role'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateRoleRequestBody::class)]
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         $validatedData = $request->validated();
 
-        $role = Role::find($roleId);
+        $role = Role::find($role->id);
 
         if (!$role) {
             return response()->api(null, 'Data role tidak ditemukan', null, Response::HTTP_NOT_FOUND);
@@ -78,9 +102,10 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deactivate(string $roleId)
+    #[OpenApi\Operation(tags: ['role'], method: 'delete', security: JWTSecurityScheme::class)]
+    public function deactivate(Role $role)
     {
-        $role = Role::find($roleId);
+        $role = Role::find($role->id);
 
         if (!$role) {
             return response()->api(null, 'Data role tidak ditemukan', null, Response::HTTP_NOT_FOUND);

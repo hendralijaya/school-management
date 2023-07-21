@@ -8,14 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\API\v1\Guru\PostGuruRequest;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use App\Http\Requests\API\v1\Guru\CreateGuruRequest;
 use App\Http\Requests\API\v1\Guru\UpdateGuruRequest;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\OpenApi\RequestBodies\API\v1\Guru\CreateGuruRequestBody;
+use App\OpenApi\RequestBodies\API\v1\Guru\UpdateGuruRequestBody;
 
+#[OpenApi\PathItem]
 class GuruController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    #[OpenApi\Operation(tags: ['guru'], method: 'get', security: JWTSecurityScheme::class)]
     public function index(Request $request)
     {
         $filters = [
@@ -49,7 +55,9 @@ class GuruController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PostGuruRequest $request)
+    #[OpenApi\Operation(tags: ['guru'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateGuruRequestBody::class)]
+    public function store(CreateGuruRequest $request)
     {
         $validatedData = $request->validated();
 
@@ -76,9 +84,10 @@ class GuruController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $guruId)
+    #[OpenApi\Operation(tags: ['guru'], method: 'get', security: JWTSecurityScheme::class)]
+    public function show(Guru $guru)
     {
-        $guru = Guru::find($guruId);
+        $guru = Guru::find($guru->id);
 
         if (!$guru) {
             return response()->api(null, 'Guru tidak ditemukan', null, Response::HTTP_NOT_FOUND);
@@ -90,11 +99,13 @@ class GuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateGuruRequest $request, string $guruId)
+    #[OpenApi\Operation(tags: ['guru'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateGuruRequestBody::class)]
+    public function update(UpdateGuruRequest $request, Guru $guru)
     {
         $validatedData = $request->validated();
 
-        $guru = Guru::find($guruId);
+        $guru = Guru::find($guru->id);
         if (!$guru) {
             return response()->api(null, 'Guru tidak ditemukan', null, Response::HTTP_NOT_FOUND);
         }
@@ -115,9 +126,10 @@ class GuruController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function deactivate(string $guruId)
+    #[OpenApi\Operation(tags: ['guru'], method: 'delete', security: JWTSecurityScheme::class)]
+    public function deactivate(Guru $guru)
     {
-        $guru = Guru::find($guruId);
+        $guru = Guru::find($guru->id);
 
         if (!$guru) {
             return response()->api(null, 'Guru tidak ditemukan', null, Response::HTTP_NOT_FOUND);

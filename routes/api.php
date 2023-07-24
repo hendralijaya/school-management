@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\v1\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\v1\AuthController;
 use App\Http\Controllers\API\v1\GuruController;
@@ -46,6 +47,14 @@ Route::middleware('jwt.role:Admin')->prefix('v1/role')->group(function () {
     Route::post('/', [RoleController::class, 'store']);
     Route::put('/{role}', [RoleController::class, 'update']);
     Route::delete('/{role}', [RoleController::class, 'deactivate']);
+});
+
+Route::middleware('jwt.role:Admin')->prefix('v1/admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index']);
+    Route::get('/{admin}', [AdminController::class, 'show']);
+    Route::post('/', [AdminController::class, 'store']);
+    Route::put('/{admin}', [AdminController::class, 'update']);
+    Route::delete('/{admin}', [AdminController::class, 'deactivate']);
 });
 
 Route::middleware('jwt.role:Admin')->prefix('v1/siswa')->group(function () {

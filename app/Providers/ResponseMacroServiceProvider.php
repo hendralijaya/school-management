@@ -13,7 +13,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
       return Response::json([
         'data' => $data,
         'message' => $message,
-        'error' => $error,
+        'errors' => $error,
         'statusCode' => $statusCode,
       ])->setStatusCode($statusCode);
     });

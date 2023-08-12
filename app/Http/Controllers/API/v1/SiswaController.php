@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use Exception;
 use App\Models\User;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
@@ -61,27 +63,38 @@ class SiswaController extends Controller
     #[OpenApi\RequestBody(factory: CreateSiswaRequestBody::class)]
     public function store(CreateSiswaRequest $request)
     {
-        $validatedData = $request->validated();
-        // seperate data siswa and data user
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'role_id' => 3,
-        ]);
+        try {
+            $validatedData = $request->validated();
+            // seperate data siswa and data user
+            DB::beginTransaction();
 
-        $siswa = Siswa::create([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'tgl_bergabung' => $validatedData['tgl_bergabung'],
-            'tgl_lahir' => $validatedData['tgl_lahir'],
-            'alamat' => $validatedData['alamat'],
-            'status' => $validatedData['status'],
-            'orang_tua_id' => $validatedData['orang_tua_id'],
-            'user_id' => $user->id,
-        ]);
+            $siswa = Siswa::create([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'tgl_bergabung' => $validatedData['tgl_bergabung'],
+                'tgl_lahir' => $validatedData['tgl_lahir'],
+                'alamat' => $validatedData['alamat'],
+                'status' => $validatedData['status'],
+                'orang_tua_id' => $validatedData['orang_tua_id'],
+            ]);
 
-        return response()->api($siswa, 'Berhasil menambahkan data siswa', null, Response::HTTP_CREATED);
+            $user = new User([
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role_id' => 2,
+                'status' => $validatedData['status'],
+            ]);
+
+            $siswa->user()->save($user);
+
+            DB::commit();
+
+            return response()->api($siswa, 'Berhasil menambahkan data siswa', null, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal menambahkan data siswa', $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -90,10 +103,6 @@ class SiswaController extends Controller
     #[OpenApi\Operation(tags: ['siswa'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Siswa $siswa)
     {
-        $siswa = Siswa::with('user')->find($siswa->id);
-        if (!$siswa) {
-            return response()->api(null, 'Data siswa tidak ditemukan', 'Not Found', Response::HTTP_NOT_FOUND);
-        }
         return response()->api($siswa, 'Berhasil mendapatkan data siswa', null, Response::HTTP_OK);
     }
 
@@ -112,24 +121,28 @@ class SiswaController extends Controller
     #[OpenApi\RequestBody(factory: CreateSiswaRequestBody::class)]
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
+            DB::beginTransaction();
+            $siswa->update([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'tgl_bergabung' => $validatedData['tgl_bergabung'],
+                'tgl_lahir' => $validatedData['tgl_lahir'],
+                'alamat' => $validatedData['alamat'],
+                'status' => $validatedData['status'],
+            ]);
 
-        $siswa = Siswa::find($siswa->id);
-        if (!$siswa) {
-            return response()->api(null, 'Data siswa tidak ditemukan', 'Not Found', Response::HTTP_NOT_FOUND);
+            $siswa->user()->update([
+                'status' => $validatedData['status'],
+            ]);
+            DB::commit();
+            return response()->api($siswa, 'Berhasil mengubah data siswa', null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal mengubah data siswa', $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $siswa->update([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'tgl_bergabung' => $validatedData['tgl_bergabung'],
-            'tgl_lahir' => $validatedData['tgl_lahir'],
-            'alamat' => $validatedData['alamat'],
-            'status' => $validatedData['status'],
-        ]);
-
-        return response()->api($siswa, 'Berhasil mengubah data siswa', null, Response::HTTP_OK);
     }
 
     /**
@@ -138,15 +151,19 @@ class SiswaController extends Controller
     #[OpenApi\Operation(tags: ['siswa'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Siswa $siswa)
     {
-        $siswa = Siswa::find($siswa->id);
-        if (!$siswa) {
-            return response()->api(null, 'Data siswa tidak ditemukan', 'Not Found', Response::HTTP_NOT_FOUND);
+        try {
+            DB::beginTransaction();
+            $siswa->update([
+                'status' => 'D',
+            ]);
+            $siswa->user()->update([
+                'status' => 'D',
+            ]);
+            DB::commit();
+            return response()->api($siswa, 'Berhasil menonaktifkan data siswa', null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal menonaktifkan data siswa', $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $siswa->update([
-            'status' => 'D',
-        ]);
-
-        return response()->api($siswa, 'Berhasil menonaktifkan data siswa', null, Response::HTTP_OK);
     }
 }

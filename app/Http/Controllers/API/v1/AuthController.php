@@ -42,13 +42,11 @@ class AuthController extends Controller
             return response()->api(null, 'Invalid credentials', 'Unauthorized', 401);
         }
 
-        // $token = JWTAuth::fromUser($user, ['email' => $user->email, 'role_id' => $user->role_id]);
-        // // verify token validity
-        // if (!JWTAuth::check($token)) {
-        //     return response()->api(null, 'Invalid token', 'Unauthorized', 401);
-        // }
-
         $user = $request->user();
+
+        if ($user->status === 'D') {
+            return response()->api(null, 'User is deactivated', 'Unauthorized', 401);
+        }
 
         return response()->api([
             'user' => $user, 'authorization' => [
@@ -89,9 +87,9 @@ class AuthController extends Controller
             ]
         ], "Refresh token", null, 200);
     }
-    #[OpenApi\Operation(null, ['auth'], JWTSecurityScheme::class, 'GET', null)]
-    public function test()
-    {
-        return response()->api(null, 'Test', null, 200);
-    }
+    // #[OpenApi\Operation(null, ['auth'], JWTSecurityScheme::class, 'GET', null)]
+    // public function test()
+    // {
+    //     return response()->api(null, 'Test', null, 200);
+    // }
 }

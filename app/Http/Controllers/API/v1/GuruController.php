@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use Exception;
 use App\Models\Guru;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
@@ -59,26 +61,34 @@ class GuruController extends Controller
     #[OpenApi\RequestBody(factory: CreateGuruRequestBody::class)]
     public function store(CreateGuruRequest $request)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
+            DB::beginTransaction();
 
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'role_id' => 3,
-        ]);
+            $guru = Guru::create([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'tgl_bergabung' => $validatedData['tgl_bergabung'],
+                'tgl_lahir' => $validatedData['tgl_lahir'],
+                'alamat' => $validatedData['alamat'],
+                'status' => $validatedData['status'],
+            ]);
 
-        $guru = Guru::create([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'tgl_bergabung' => $validatedData['tgl_bergabung'],
-            'tgl_lahir' => $validatedData['tgl_lahir'],
-            'alamat' => $validatedData['alamat'],
-            'status' => $validatedData['status'],
-            'user_id' => $user->id,
-        ]);
+            $user = new User([
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role_id' => 2,
+                'status' => $validatedData['status'],
+            ]);
 
-        return response()->api($guru, 'Berhasil menambahkan data guru', null, Response::HTTP_CREATED);
+            $guru->user()->save($user);
+
+            DB::commit();
+            return response()->api($guru, 'Berhasil menambahkan data guru', null, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            return response()->api(null, 'Gagal menambahkan data guru', $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -87,12 +97,6 @@ class GuruController extends Controller
     #[OpenApi\Operation(tags: ['guru'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Guru $guru)
     {
-        $guru = Guru::find($guru->id);
-
-        if (!$guru) {
-            return response()->api(null, 'Guru tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         return response()->api($guru, 'Berhasil mendapatkan data guru', null, Response::HTTP_OK);
     }
 
@@ -103,24 +107,27 @@ class GuruController extends Controller
     #[OpenApi\RequestBody(factory: UpdateGuruRequestBody::class)]
     public function update(UpdateGuruRequest $request, Guru $guru)
     {
-        $validatedData = $request->validated();
-
-        $guru = Guru::find($guru->id);
-        if (!$guru) {
-            return response()->api(null, 'Guru tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+        try {
+            $validatedData = $request->validated();
+            DB::beginTransaction();
+            $guru->update([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'tgl_bergabung' => $validatedData['tgl_bergabung'],
+                'tgl_lahir' => $validatedData['tgl_lahir'],
+                'alamat' => $validatedData['alamat'],
+                'status' => $validatedData['status'],
+            ]);
+            $guru->user()->update([
+                'status' => $validatedData['status'],
+            ]);
+            DB::commit();
+            return response()->api($guru, 'Berhasil mengubah data guru', null, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal mengubah data guru', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $guru->update([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'tgl_bergabung' => $validatedData['tgl_bergabung'],
-            'tgl_lahir' => $validatedData['tgl_lahir'],
-            'alamat' => $validatedData['alamat'],
-            'status' => $validatedData['status'],
-        ]);
-
-        return response()->api($guru, 'Berhasil mengubah data guru', null, Response::HTTP_OK);
     }
 
     /**
@@ -129,16 +136,20 @@ class GuruController extends Controller
     #[OpenApi\Operation(tags: ['guru'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Guru $guru)
     {
-        $guru = Guru::find($guru->id);
+        try {
+            DB::beginTransaction();
+            $guru->update([
+                'status' => 'D',
+            ]);
+            $guru->user()->update([
+                'status' => 'D',
+            ]);
+            DB::commit();
 
-        if (!$guru) {
-            return response()->api(null, 'Guru tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+            return response()->api($guru, 'Berhasil menonaktifkan data guru', null, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal menonaktifkan data guru', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $guru->update([
-            'status' => 'D',
-        ]);
-
-        return response()->api($guru, 'Berhasil menonaktifkan data guru', null, Response::HTTP_OK);
     }
 }

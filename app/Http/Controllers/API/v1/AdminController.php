@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use Exception;
 use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\Admin\CreateAdminRequest;
 use App\Http\Requests\API\v1\Admin\UpdateAdminRequest;
+use App\OpenApi\Parameters\API\v1\Admin\ListAdminParameters;
+use App\OpenApi\RequestBodies\API\v1\Admin\CreateAdminRequestBody;
+use App\OpenApi\RequestBodies\API\v1\Admin\UpdateAdminRequestBody;
 
 #[OpenApi\PathItem]
 class AdminController extends Controller
@@ -18,15 +24,18 @@ class AdminController extends Controller
     /**
      * Display a listing of the resource.
      */
+    #[OpenApi\Operation(tags: ['admin'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListAdminParameters::class)]
     public function index(Request $request)
     {
         $filters = [
+            'per_page' => $request->input('per_page'),
             'gender' => $request->input('gender'),
             'status' => $request->input('status'),
             'search' => $request->input('search'),
         ];
 
-        $perPage = 10;
+        $perPage = $filters['per_page'] ?? 10;
 
         $adminQuery = Admin::query()
             ->when($filters['gender'], fn ($query, $gender) => $query->filterByGender($gender))
@@ -45,79 +54,95 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    #[OpenApi\Operation(tags: ['admin'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateAdminRequestBody::class)]
     public function store(CreateAdminRequest $request)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
+            DB::beginTransaction();
+            $user = User::create([
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role_id' => 1,
+                'status' => $validatedData['status'],
+            ]);
 
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'role_id' => 1,
-        ]);
+            $admin = $user->userable()->create([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'status' => $validatedData['status'],
+            ]);
+            DB::commit();
 
-        $admin = Admin::create([
-            'user_id' => $user->id,
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'status' => $validatedData['status'],
-        ]);
-
-        return response()->api($admin, 'Admin berhasil ditambahkan', null, Response::HTTP_CREATED);
+            return response()->api($admin, 'Admin berhasil ditambahkan', null, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Admin gagal ditambahkan', null, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
      * Display the specified resource.
      */
+    #[OpenApi\Operation(tags: ['admin'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Admin $admin)
     {
-        $admin = Admin::find($admin->id);
-
-        if (!$admin) {
-            return response()->api(null, 'Admin tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         return response()->api($admin, 'Berhasil mendapatkan data admin', null, Response::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
+    #[OpenApi\Operation(tags: ['admin'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateAdminRequestBody::class)]
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
+            DB::beginTransaction();
+            $admin->update([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'status' => $validatedData['status'],
+            ]);
 
-        $admin = Admin::find($admin->id);
+            $admin->user->update([
+                'status' => $validatedData['status'],
+            ]);
+            DB::commit();
 
-        if (!$admin) {
-            return response()->api(null, 'Admin tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+            return response()->api($admin, 'Admin berhasil diupdate', null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Admin gagal diupdate', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $admin->update([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'status' => $validatedData['status'],
-        ]);
-
-        return response()->api($admin, 'Admin berhasil diupdate', null, Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
+    #[OpenApi\Operation(tags: ['admin'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Admin $admin)
     {
-        $admin = Admin::find($admin->id);
+        try {
+            DB::beginTransaction();
+            $admin->update([
+                'status' => 'D',
+            ]);
 
-        if (!$admin) {
-            return response()->api(null, 'Admin tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+            $admin->user->update([
+                'status' => 'D',
+            ]);
+
+            DB::commit();
+
+            return response()->api($admin, 'Admin berhasil dinonaktifkan', null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Admin gagal dinonaktifkan', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $admin->update([
-            'status' => 'D',
-        ]);
-
-        return response()->api($admin, 'Admin berhasil dinonaktifkan', null, Response::HTTP_OK);
     }
 }

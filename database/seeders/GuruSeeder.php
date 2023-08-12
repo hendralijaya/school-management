@@ -16,6 +16,6 @@ class GuruSeeder extends Seeder
         Guru::query()->delete();
 
         // // Creating 5 guru
-        Guru::factory()->count(50)->create();
+        Guru::factory()->count(20)->create();
     }
 }

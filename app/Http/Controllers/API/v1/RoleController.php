@@ -67,12 +67,6 @@ class RoleController extends Controller
     #[OpenApi\Operation(tags: ['role'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Role $role)
     {
-        $role = Role::find($role->id);
-
-        if (!$role) {
-            return response()->api(null, 'Data role tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         return response()->api($role, 'Berhasil mendapatkan data role', null, Response::HTTP_OK);
     }
 
@@ -84,12 +78,6 @@ class RoleController extends Controller
     public function update(UpdateRoleRequest $request, Role $role)
     {
         $validatedData = $request->validated();
-
-        $role = Role::find($role->id);
-
-        if (!$role) {
-            return response()->api(null, 'Data role tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
 
         $role->update([
             'nama' => $validatedData['nama'],
@@ -105,12 +93,10 @@ class RoleController extends Controller
     #[OpenApi\Operation(tags: ['role'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Role $role)
     {
-        $role = Role::find($role->id);
-
-        if (!$role) {
-            return response()->api(null, 'Data role tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+        // Check if the role's name is "Admin"
+        if ($role->nama === 'Admin') {
+            return response()->api(null, 'Cannot deactivate the Admin role', 'Forbidden', Response::HTTP_FORBIDDEN);
         }
-
         $role->update([
             'status' => 'D',
         ]);

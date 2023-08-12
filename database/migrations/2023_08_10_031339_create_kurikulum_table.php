@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('siswa', function (Blueprint $table) {
-            $table->foreignId('user_id')->nullable()->constrained('user')->onDelete('cascade');
+        Schema::create('kurikulum', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama', 100);
+            $table->year('tahun');
+            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 
@@ -21,9 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('siswa', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
-        });
+        Schema::dropIfExists('kurikulum');
     }
 };

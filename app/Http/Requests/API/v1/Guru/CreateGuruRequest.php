@@ -2,6 +2,10 @@
 
 namespace App\Http\Requests\API\v1\Guru;
 
+use App\Models\Guru;
+use App\Models\JabatanGuru;
+use Illuminate\Validation\Rule;
+use App\Rules\UniqueJabatanGuru;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateGuruRequest extends FormRequest
@@ -27,7 +31,10 @@ class CreateGuruRequest extends FormRequest
             'password' => 'required|string|min:6',
 
             // guru
-            'tipe' => 'required',
+            'jabatan_guru_id' => [
+                'required',
+                new UniqueJabatanGuru,
+            ],
             'nama' => 'required',
             'no_wa' => 'required',
             'gender' => 'required',

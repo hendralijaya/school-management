@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Guru;
+use App\Models\User;
+use App\Models\JabatanGuru;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class GuruFactory extends Factory
 {
+    protected static $createdTeachersCount = 0;
     /**
      * Define the model's default state.
      *
@@ -18,13 +22,26 @@ class GuruFactory extends Factory
     {
         $faker = \Faker\Factory::create('id_ID');
 
+        // Retrieve the IDs of 'Kepala Sekolah' and 'Wakil Kepala Sekolah' roles
+        $kepalaSekolahId = JabatanGuru::where('nama', 'Kepala Sekolah')->value('id');
+        $wakilKepalaSekolahId = JabatanGuru::where('nama', 'Wakil Kepala Sekolah')->value('id');
+
+        // Assign the role IDs based on desired distribution
+        if (self::$createdTeachersCount < 2) {
+            $jabatanGuruId = self::$createdTeachersCount === 0 ? $kepalaSekolahId : $wakilKepalaSekolahId;
+        } else {
+            $jabatanGuruId = JabatanGuru::where('nama', 'Guru Tetap')->value('id'); // Adjust as needed
+        }
+
+        // Increment the created teachers count
+        self::$createdTeachersCount++;
+
         // Generate the phone number without any non-digit characters
         $phoneNumber = preg_replace('/\D/', '', $faker->phoneNumber);
 
         // Add the international code at the beginning (+62 for Indonesia)
         $phoneNumber = '+62' . substr($phoneNumber, 1);
         return [
-            'tipe' => $faker->randomElement(['Guru Tetap', 'Guru Honorer']),
             'nama' => $faker->name,
             'no_wa' => $phoneNumber,
             'gender' => $faker->randomElement(['M', 'F']),
@@ -32,10 +49,22 @@ class GuruFactory extends Factory
             'tgl_lahir' => $faker->dateTimeBetween('-60 years', 'now')->format('Y-m-d'),
             'alamat' => $faker->address,
             'status' => $faker->randomElement(['A', 'D']),
-            'user_id' => function () {
-                // Replace this with the desired logic to assign user_id to siswa
-                return \App\Models\User::factory()->withRoleId(2)->create()->id;
-            },
+            'jabatan_guru_id' => $jabatanGuruId,
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Guru $guru) {
+            $faker = \Faker\Factory::create('id_ID');
+            $user = new User([
+                'email' => $faker->unique()->safeEmail,
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'status' => 'A',
+                'role_id' => 3,
+            ]);
+
+            $guru->user()->save($user);
+        });
     }
 }

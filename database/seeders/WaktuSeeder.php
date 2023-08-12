@@ -14,29 +14,40 @@ class WaktuSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            // Waktu 1: Jam 8.00.00 - 10.00.00 (Mapel)
             [
+                'kategori_waktu_id' => 1,
                 'waktu_mulai' => '08:00:00',
+                'waktu_selesai' => '09:00:00',
+            ],
+            [
+                'kategori_waktu_id' => 1,
+                'waktu_mulai' => '09:00:00',
                 'waktu_selesai' => '10:00:00',
-                'jenis_waktu' => 'mapel',
             ],
-            // Waktu 2: Jam 10.00.00 - 10.30.00 (Istirahat)
             [
+                'kategori_waktu_id' => 1,
                 'waktu_mulai' => '10:00:00',
-                'waktu_selesai' => '10:30:00',
-                'jenis_waktu' => 'istirahat',
+                'waktu_selesai' => '11:00:00',
             ],
-            // Waktu 3: Jam 10.30.00 - 12.00.00 (Mapel)
             [
-                'waktu_mulai' => '10:30:00',
+                'kategori_waktu_id' => 1,
+                'waktu_mulai' => '11:00:00',
                 'waktu_selesai' => '12:00:00',
-                'jenis_waktu' => 'mapel',
             ],
-            // Waktu 4: Jam 12.00.00 - 14.00.00 (Mapel)
             [
+                'kategori_waktu_id' => 2,
                 'waktu_mulai' => '12:00:00',
+                'waktu_selesai' => '13:00:00',
+            ],
+            [
+                'kategori_waktu_id' => 1,
+                'waktu_mulai' => '13:00:00',
                 'waktu_selesai' => '14:00:00',
-                'jenis_waktu' => 'mapel',
+            ],
+            [
+                'kategori_waktu_id' => 1,
+                'waktu_mulai' => '14:00:00',
+                'waktu_selesai' => '15:00:00',
             ],
         ];
 

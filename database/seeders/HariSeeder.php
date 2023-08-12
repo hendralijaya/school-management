@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Hari;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class HariSeeder extends Seeder
 {
@@ -13,10 +12,9 @@ class HariSeeder extends Seeder
      */
     public function run(): void
     {
-        // // Clearing Hari table
-        Hari::query()->delete();
+        $data = [['nama' => 'Senin', 'kategori_hari_id' => 1, 'status' => 'A'], ['nama' => 'Selasa', 'kategori_hari_id' => 1, 'status' => 'A'], ['nama' => 'Rabu', 'kategori_hari_id' => 1, 'status' => 'A'], ['nama' => 'Kamis', 'kategori_hari_id' => 1, 'status' => 'A'], ['nama' => 'Jumat', 'kategori_hari_id' => 1, 'status' => 'A'], ['nama' => 'Sabtu', 'kategori_hari_id' => 2, 'status' => 'A'], ['nama' => 'Minggu', 'kategori_hari_id' => 3, 'status' => 'A']];
 
-        // // Creating Hari
-        Hari::factory()->count(6)->create();
+        // insert data to database using model
+        Hari::insert($data);
     }
 }

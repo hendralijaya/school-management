@@ -32,14 +32,25 @@ class SiswaFactory extends Factory
             'tgl_lahir' => $faker->dateTimeBetween('-15 years', 'now')->format('Y-m-d'),
             'alamat' => $faker->address,
             'status' => $faker->randomElement(['A', 'D']),
-            'user_id' => function () {
-                // Replace this with the desired logic to assign user_id to siswa
-                return \App\Models\User::factory()->withRoleId(3)->create()->id;
-            },
             'orang_tua_id' => function () {
                 // get random orang_tua_id from database
                 return \App\Models\OrangTua::inRandomOrder()->first()->id;
             }
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (\App\Models\Siswa $siswa) {
+            $faker = \Faker\Factory::create('id_ID');
+            $user = new \App\Models\User([
+                'email' => $faker->unique()->safeEmail,
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'status' => 'A',
+                'role_id' => 2,
+            ]);
+
+            $siswa->user()->save($user);
+        });
     }
 }

@@ -31,10 +31,22 @@ class OrangTuaFactory extends Factory
             'tgl_lahir' => $faker->dateTimeBetween('-60 years', 'now')->format('Y-m-d'),
             'alamat' => $faker->address,
             'status' => $faker->randomElement(['A', 'D']),
-            'user_id' => function () {
-                // Replace this with the desired logic to assign user_id to siswa
-                return \App\Models\User::factory()->withRoleId(4)->create()->id;
-            },
         ];
+    }
+
+    public function configure()
+    {
+
+        return $this->afterCreating(function (\App\Models\OrangTua $orangTua) {
+            $faker = \Faker\Factory::create('id_ID');
+            $user = new \App\Models\User([
+                'email' => $faker->unique()->safeEmail,
+                'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+                'status' => 'A',
+                'role_id' => 4,
+            ]);
+
+            $orangTua->user()->save($user);
+        });
     }
 }

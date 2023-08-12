@@ -14,7 +14,11 @@ class ListMataPelajaranParameters extends ParametersFactory
     public function build(): array
     {
         return [
-
+            Parameter::query()
+                ->name('per_page')
+                ->description('Limit the number of jenis tingkat lomba data returned')
+                ->schema(Schema::integer()->default(10))
+                ->required(false),
             Parameter::query()
                 ->name('status')
                 ->description('Filter by status')

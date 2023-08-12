@@ -66,12 +66,6 @@ class RuangController extends Controller
     #[OpenApi\Operation(tags: ['ruang'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Ruang $ruang)
     {
-        $ruang = Ruang::find($ruang->id);
-
-        if (!$ruang) {
-            return response()->api(null, 'Ruang tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         return response()->api($ruang, 'Berhasil mendapatkan data ruang', null, Response::HTTP_OK);
     }
 
@@ -84,12 +78,6 @@ class RuangController extends Controller
     {
         $validated = $request->validated();
 
-        $ruang = Ruang::find($ruang->id);
-
-        if (!$ruang) {
-            return response()->api(null, 'Ruang tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         $ruang->update($validated);
 
         return response()->api($ruang, 'Ruang berhasil diperbarui', null, Response::HTTP_OK);
@@ -101,12 +89,6 @@ class RuangController extends Controller
     #[OpenApi\Operation(tags: ['ruang'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Ruang $ruang)
     {
-        $ruang = Ruang::find($ruang->id);
-
-        if (!$ruang) {
-            return response()->api(null, 'Ruang tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         $ruang->update(['status' => 'D']);
 
         return response()->api($ruang, 'Ruang berhasil dinonaktifkan', null, Response::HTTP_OK);

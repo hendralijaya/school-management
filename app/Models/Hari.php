@@ -2,13 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\KategoriHari;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Hari extends Model
 {
     protected $table = 'hari';
-    protected $fillable = ['nama', 'kapasitas', 'status'];
+    protected $fillable = ['kategori_hari_id', 'nama', 'kapasitas', 'status'];
     public $timestamps = false;
     use HasFactory;
+
+    public function kategori_hari()
+    {
+        return $this->belongsTo(KategoriHari::class);
+    }
 }

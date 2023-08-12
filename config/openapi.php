@@ -47,6 +47,10 @@ return [
                     'description' => 'CRUD Orang Tua',
                 ],
                 [
+                    'name' => 'admin',
+                    'description' => 'CRUD Admin',
+                ],
+                [
                     'name' => 'ruang',
                     'description' => 'CRUD Ruang',
                 ]

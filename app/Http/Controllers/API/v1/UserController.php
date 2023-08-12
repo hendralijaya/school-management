@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\v1;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use App\Http\Requests\API\v1\User\UpdateUserRequest;
@@ -66,12 +67,6 @@ class UserController extends Controller
     #[OpenApi\Operation(tags: ['user'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(User $user)
     {
-        $user = User::find($user->id);
-
-        if (!$user) {
-            return response()->api(null, 'Data user tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         return response()->api($user, 'Berhasil mendapatkan data user', null, Response::HTTP_OK);
     }
 
@@ -80,19 +75,22 @@ class UserController extends Controller
      */
     #[OpenApi\Operation(tags: ['user'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateUserRequestBody::class)]
-    public function update(UpdateUserRequest $request, String $userId)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
 
-        $user = User::find($userId);
-
-        if (!$user) {
-            return response()->api(null, 'Data user tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+            DB::beginTransaction();
+            $user->update($validatedData);
+            $user->userable()->update([
+                'status' => $validatedData['status'],
+            ]);
+            DB::commit();
+            return response()->api($user, 'Berhasil mengubah data user', null, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal mengubah data user', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $user->update($validatedData);
-
-        return response()->api($user, 'Berhasil mengubah data user', null, Response::HTTP_OK);
     }
 
     /**
@@ -101,14 +99,15 @@ class UserController extends Controller
     #[OpenApi\Operation(null, tags: ['user'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(User $user)
     {
-        $user = User::find($user->id);
+        try {
+            DB::beginTransaction();
+            $user->update(['status' => 'D']);
+            $user->userable()->update(['status' => 'D']);
+            DB::commit();
 
-        if (!$user) {
-            return response()->api(null, 'Data user tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+            return response()->api($user, 'Berhasil menonaktifkan data user', null, Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->api(null, 'Gagal menonaktifkan data user', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $user->update(['status' => 'D']);
-
-        return response()->api($user, 'Berhasil menonaktifkan data user', null, Response::HTTP_OK);
     }
 }

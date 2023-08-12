@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Siswa;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrangTua extends Model
@@ -14,7 +15,6 @@ class OrangTua extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'nama',
         'no_wa',
         'gender',
@@ -23,9 +23,9 @@ class OrangTua extends Model
         'status',
     ];
 
-    public function user()
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
     }
 
     public function siswa()

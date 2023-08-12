@@ -8,12 +8,13 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\AnyOf;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Not;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\OneOf;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
+use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
 
-class UpdateMataPelajaranSchema extends SchemaFactory
+class UpdateMataPelajaranSchema extends SchemaFactory implements Reusable
 {
     /**
-     * @return AllOf|OneOf|AnyOf|Not|Schema
+     * @return AllOf|OneOf|AnyOf|Not|SchemaReusable
      */
     public function build(): SchemaContract
     {

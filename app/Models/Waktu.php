@@ -9,9 +9,9 @@ class Waktu extends Model
 {
     protected $table = 'waktu';
     protected $fillable = [
+        'kategori_waktu_id',
         'waktu_mulai',
         'waktu_selesai',
-        'jenis_waktu',
     ];
     public $timestamps = false;
 

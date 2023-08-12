@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Admin extends Model
@@ -13,16 +15,15 @@ class Admin extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'nama',
         'no_wa',
         'gender',
         'status'
     ];
 
-    public function user()
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
     }
 
     public function scopeFilterByStatus(Builder $query, string $status)

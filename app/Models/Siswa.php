@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\User;
 use App\Models\OrangTua;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Siswa extends Model
@@ -30,13 +32,12 @@ class Siswa extends Model
         'tgl_lahir',
         'alamat',
         'status',
-        'user_id',
         'orang_tua_id'
     ];
 
-    public function user()
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
     }
 
     public function orangTua()

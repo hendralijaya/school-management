@@ -1,5 +1,41 @@
-php artisan openapi:make-parameters API/v1/MataPelajaran/ListMataPelajaranParameters
-php artisan openapi:make-requestbody API/v1/MataPelajaran/CreateMataPelajaran
-php artisan openapi:make-requestbody API/v1/MataPelajaran/UpdateMataPelajaran
-php artisan openapi:make-schema API/v1/MataPelajaran/CreateMataPelajaran
-php artisan openapi:make-schema API/v1/MataPelajaran/UpdateMataPelajaran
+php artisan openapi:make-parameters API/v1/Admin/ListAdminParameters
+php artisan openapi:make-requestbody API/v1/Admin/CreateAdmin
+php artisan openapi:make-requestbody API/v1/Admin/UpdateAdmin
+php artisan openapi:make-schema API/v1/Admin/CreateAdmin
+php artisan openapi:make-schema API/v1/Admin/UpdateAdmin
+
+php artisan make:request API/v1/JabatanGuru/CreateJabatanGuruRequest
+php artisan make:request API/v1/JabatanGuru/UpdateJabatanGuruRequest
+
+php artisan make:request API/v1/Diskon/CreateDiskonRequest
+php artisan make:request API/v1/Diskon/UpdateDiskonRequest
+
+php artisan make:request API/v1/Kurikulum/CreateKurikulumRequest
+php artisan make:request API/v1/Kurikulum/UpdateKurikulumRequest
+
+php artisan make:controller API/v1/KurikulumController --resource
+php artisan make:controller API/v1/DiskonController --resource
+php artisan make:controller API/v1/BiayaSekolahController --resource
+
+php artisan make:model KategoriHari
+php artisan make:model KategoriWaktu
+php artisan make:model Kurikulum
+
+done:
+Admin
+Guru
+OrangTua
+Siswa
+User
+
+Role
+
+Ruang
+MataPelajaran
+Waktu
+Hari
+
+Jurusan
+
+
+

@@ -25,6 +25,11 @@ class JwtRoleMiddleware
             // Check if the user has one of the required roles
             $userRoleId = $user->role_id;
             $role = Role::where('id', $userRoleId)->first();
+
+            if ($role->status === 'D' || $user->status === 'D') {
+                return response()->api(null, 'Access denied', 'Unauthorized', 403);
+            }
+
             if (!in_array($role->nama, $roles)) {
                 return response()->api(null, 'Unauthorized access', 'Unauthorized', 403);
             }

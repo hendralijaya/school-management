@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use Exception;
 use App\Models\User;
 use App\Models\OrangTua;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
@@ -55,25 +57,31 @@ class OrangTuaController extends Controller
     #[OpenApi\RequestBody(factory: CreateOrangTuaRequestBody::class)]
     public function store(CreateOrangTuaRequest $request)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
 
-        $user = User::create([
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'role_id' => 3,
-        ]);
+            DB::beginTransaction();
+            $orangTua = OrangTua::create([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'tgl_lahir' => $validatedData['tgl_lahir'],
+                'alamat' => $validatedData['alamat'],
+                'status' => $validatedData['status'],
+            ]);
+            $user = new User([
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role_id' => 3,
+            ]);
+            $orangTua->user()->save($user);
+            DB::commit();
 
-        $orangTua = OrangTua::create([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'tgl_lahir' => $validatedData['tgl_lahir'],
-            'alamat' => $validatedData['alamat'],
-            'status' => $validatedData['status'],
-            'user_id' => $user->id,
-        ]);
-
-        return response()->api($orangTua, 'Berhasil menambahkan data orang tua', null, Response::HTTP_CREATED);
+            return response()->api($orangTua, 'Berhasil menambahkan data orang tua', null, Response::HTTP_CREATED);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal menyimpan data orang tua', null, Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -82,11 +90,6 @@ class OrangTuaController extends Controller
     #[OpenApi\Operation(tags: ['orang-tua'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(OrangTua $orangTua)
     {
-        $orangTua = OrangTua::find($orangTua->id);
-        if (!$orangTua) {
-            return response()->api(null, 'Orang tua tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
         return response()->api($orangTua, 'Berhasil mendapatkan data orang tua', null, Response::HTTP_OK);
     }
 
@@ -97,24 +100,28 @@ class OrangTuaController extends Controller
     #[OpenApi\RequestBody(factory: UpdateOrangTuaRequestBody::class)]
     public function update(UpdateOrangTuaRequest $request, OrangTua $orangTua)
     {
-        $validatedData = $request->validated();
+        try {
+            $validatedData = $request->validated();
 
-        $orangTua = OrangTua::find($orangTua->id);
+            DB::beginTransaction();
+            $orangTua->update([
+                'nama' => $validatedData['nama'],
+                'no_wa' => $validatedData['no_wa'],
+                'gender' => $validatedData['gender'],
+                'tgl_lahir' => $validatedData['tgl_lahir'],
+                'alamat' => $validatedData['alamat'],
+                'status' => $validatedData['status'],
+            ]);
+            $orangTua->user->update([
+                'email' => $validatedData['email'],
+            ]);
+            DB::commit();
 
-        if (!$orangTua) {
-            return response()->api(null, 'Orang tua tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+            return response()->api($orangTua, 'Orang tua berhasil diupdate', null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal mengubah data orang tua', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $orangTua->update([
-            'nama' => $validatedData['nama'],
-            'no_wa' => $validatedData['no_wa'],
-            'gender' => $validatedData['gender'],
-            'tgl_lahir' => $validatedData['tgl_lahir'],
-            'alamat' => $validatedData['alamat'],
-            'status' => $validatedData['status'],
-        ]);
-
-        return response()->api($orangTua, 'Orang tua berhasil diupdate', null, Response::HTTP_OK);
     }
 
     /**
@@ -123,15 +130,20 @@ class OrangTuaController extends Controller
     #[OpenApi\Operation(tags: ['orang-tua'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(OrangTua $orangTua)
     {
-        $orangTua = OrangTua::find($orangTua->id);
-        if (!$orangTua) {
-            return response()->api(null, 'Orang tua tidak ditemukan', null, Response::HTTP_NOT_FOUND);
+        try {
+            DB::beginTransaction();
+            $orangTua->user->update([
+                'status' => 'D',
+            ]);
+            $orangTua->update([
+                'status' => 'D',
+            ]);
+            DB::commit();
+
+            return response()->api(null, 'Orang tua berhasil dinonaktifkan', null, Response::HTTP_OK);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->api(null, 'Gagal menonaktifkan data orang tua', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
-        $orangTua->user->update([
-            'status' => 'D',
-        ]);
-
-        return response()->api(null, 'Orang tua berhasil dinonaktifkan', null, Response::HTTP_OK);
     }
 }

@@ -10,6 +10,7 @@ use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\MataPelajaran\CreateMataPelajaranRequest;
 use App\Http\Requests\API\v1\MataPelajaran\UpdateMataPelajaranRequest;
+use App\OpenApi\RequestBodies\API\v1\MataPelajaran\CreateMataPelajaranRequestBody;
 
 #[OpenApi\PathItem]
 class MataPelajaranController extends Controller
@@ -22,12 +23,12 @@ class MataPelajaranController extends Controller
     {
         $filters =
             [
+                'per_page' => $request->input('per_page'),
                 'status' => $request->input('status'),
                 'search' => $request->input('search'),
                 'kategori' => $request->input('kategori'),
             ];
-
-        $perPage = 10; // Set your desired number of results per page.
+        $perPage = $filters['per_page'] ?? 10;
 
         $mataPelajaranQuery = MataPelajaran::query()
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status))
@@ -47,7 +48,7 @@ class MataPelajaranController extends Controller
      * Store a newly created resource in storage.
      */
     #[OpenApi\Operation(tags: ['mata-pelajaran'], method: 'post', security: JWTSecurityScheme::class)]
-    #[OpenApi\RequestBody(factory: CreateMataPelajaranRequest::class)]
+    #[OpenApi\RequestBody(factory: CreateMataPelajaranRequestBody::class)]
     public function store(CreateMataPelajaranRequest $request)
     {
         $validated = $request->validated();
@@ -63,13 +64,7 @@ class MataPelajaranController extends Controller
     #[OpenApi\Operation(tags: ['mata-pelajaran'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(MataPelajaran $mataPelajaran)
     {
-        $mapel = MataPelajaran::find($mataPelajaran->id);
-
-        if (!$mapel) {
-            return response()->api(null, 'Mata pelajaran tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
-        return response()->api($mapel, 'Berhasil mendapatkan data mata pelajaran', null, Response::HTTP_OK);
+        return response()->api($mataPelajaran, 'Berhasil mendapatkan data mata pelajaran', null, Response::HTTP_OK);
     }
 
     /**
@@ -80,15 +75,9 @@ class MataPelajaranController extends Controller
     {
         $validated = $request->validated();
 
-        $mapel = MataPelajaran::find($mataPelajaran->id);
+        $mataPelajaran->update($validated);
 
-        if (!$mapel) {
-            return response()->api(null, 'Mata pelajaran tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
-        $mapel->update($validated);
-
-        return response()->api($mapel, 'Mata pelajaran berhasil diupdate', null, Response::HTTP_OK);
+        return response()->api($mataPelajaran, 'Mata pelajaran berhasil diupdate', null, Response::HTTP_OK);
     }
 
     /**
@@ -97,14 +86,8 @@ class MataPelajaranController extends Controller
     #[OpenApi\Operation(tags: ['mata-pelajaran'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(MataPelajaran $mataPelajaran)
     {
-        $mapel = MataPelajaran::find($mataPelajaran->id);
+        $mataPelajaran->update(['status' => 'D']);
 
-        if (!$mapel) {
-            return response()->api(null, 'Mata pelajaran tidak ditemukan', null, Response::HTTP_NOT_FOUND);
-        }
-
-        $mapel->update(['status' => 'D']);
-
-        return response()->api($mapel, 'Mata pelajaran berhasil dinonaktifkan', null, Response::HTTP_OK);
+        return response()->api($mataPelajaran, 'Mata pelajaran berhasil dinonaktifkan', null, Response::HTTP_OK);
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\JabatanGuru;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Guru extends Model
 {
@@ -13,8 +16,7 @@ class Guru extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'tipe',
+        'jabatan_guru_id',
         'nama',
         'no_wa',
         'gender',
@@ -24,9 +26,14 @@ class Guru extends Model
         'status',
     ];
 
-    public function user()
+    public function user(): MorphOne
     {
-        return $this->belongsTo(User::class);
+        return $this->morphOne(User::class, 'userable');
+    }
+
+    public function jabatanGuru()
+    {
+        return $this->belongsTo(JabatanGuru::class, 'jabatan_guru_id');
     }
 
     public function scopeFilterByStatus(Builder $query, string $status)

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orang_tua', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id')->after('id');
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+        Schema::table('hari', function (Blueprint $table) {
+            $table->unsignedBigInteger('kategori_hari_id');
+
+            $table->foreign('kategori_hari_id')->references('id')->on('kategori_hari');
         });
     }
 
@@ -22,9 +23,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orang_tua', function (Blueprint $table) {
-            $table->dropForeign(['user_id']);
-            $table->dropColumn('user_id');
+        Schema::table('hari', function (Blueprint $table) {
+            $table->dropForeign(['kategori_hari_id']);
+            $table->dropColumn('kategori_hari_id');
         });
     }
 };

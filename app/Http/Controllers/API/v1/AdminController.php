@@ -72,7 +72,6 @@ class AdminController extends Controller
                 'nama' => $validatedData['nama'],
                 'no_wa' => $validatedData['no_wa'],
                 'gender' => $validatedData['gender'],
-                'status' => $validatedData['status'],
             ]);
             DB::commit();
 
@@ -101,12 +100,12 @@ class AdminController extends Controller
     {
         try {
             $validatedData = $request->validated();
+
             DB::beginTransaction();
             $admin->update([
                 'nama' => $validatedData['nama'],
                 'no_wa' => $validatedData['no_wa'],
                 'gender' => $validatedData['gender'],
-                'status' => $validatedData['status'],
             ]);
 
             $admin->user->update([
@@ -129,14 +128,9 @@ class AdminController extends Controller
     {
         try {
             DB::beginTransaction();
-            $admin->update([
-                'status' => 'D',
-            ]);
-
             $admin->user->update([
                 'status' => 'D',
             ]);
-
             DB::commit();
 
             return response()->api($admin, 'Admin berhasil dinonaktifkan', null, Response::HTTP_OK);

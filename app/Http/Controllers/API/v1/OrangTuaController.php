@@ -67,12 +67,12 @@ class OrangTuaController extends Controller
                 'gender' => $validatedData['gender'],
                 'tgl_lahir' => $validatedData['tgl_lahir'],
                 'alamat' => $validatedData['alamat'],
-                'status' => $validatedData['status'],
             ]);
             $user = new User([
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
                 'role_id' => 3,
+                'status' => $validatedData['status'],
             ]);
             $orangTua->user()->save($user);
             DB::commit();
@@ -110,10 +110,9 @@ class OrangTuaController extends Controller
                 'gender' => $validatedData['gender'],
                 'tgl_lahir' => $validatedData['tgl_lahir'],
                 'alamat' => $validatedData['alamat'],
-                'status' => $validatedData['status'],
             ]);
             $orangTua->user->update([
-                'email' => $validatedData['email'],
+                'status' => $validatedData['status'],
             ]);
             DB::commit();
 
@@ -131,14 +130,9 @@ class OrangTuaController extends Controller
     public function deactivate(OrangTua $orangTua)
     {
         try {
-            DB::beginTransaction();
             $orangTua->user->update([
                 'status' => 'D',
             ]);
-            $orangTua->update([
-                'status' => 'D',
-            ]);
-            DB::commit();
 
             return response()->api(null, 'Orang tua berhasil dinonaktifkan', null, Response::HTTP_OK);
         } catch (Exception $e) {

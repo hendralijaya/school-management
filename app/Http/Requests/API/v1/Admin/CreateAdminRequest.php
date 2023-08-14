@@ -25,12 +25,12 @@ class CreateAdminRequest extends FormRequest
             // user
             'email' => 'required|string|email|unique:user',
             'password' => 'required|string|min:6',
+            'status' => 'required|string|in:A,D',
 
             // admin
             'nama' => 'required|string',
             'no_wa' => 'required|regex:/^\+\d{1,14}$/',
-            'gender' => 'required|in:L,P',
-            'status' => 'required',
+            'gender' => 'required|in:M,F',
         ];
     }
 }

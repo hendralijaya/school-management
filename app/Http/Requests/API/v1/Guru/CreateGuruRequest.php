@@ -29,6 +29,7 @@ class CreateGuruRequest extends FormRequest
             // user
             'email' => 'required|string|email|unique:user',
             'password' => 'required|string|min:6',
+            'status' => 'required|string|in:A,D',
 
             // guru
             'jabatan_guru_id' => [
@@ -41,7 +42,6 @@ class CreateGuruRequest extends FormRequest
             'tgl_bergabung' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
-            'status' => 'required',
         ];
     }
 }

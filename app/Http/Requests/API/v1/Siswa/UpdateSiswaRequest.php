@@ -23,6 +23,8 @@ class UpdateSiswaRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // user
+            'status' => 'required|string|in:A,D',
             // siswa
             'nama' => 'required',
             'no_wa' => 'required',
@@ -30,7 +32,6 @@ class UpdateSiswaRequest extends FormRequest
             'tgl_bergabung' => 'required|date|after:tgl_lahir',
             'tgl_lahir' => 'required|date|before:tgl_bergabung',
             'alamat' => 'required',
-            'status' => 'required',
             'orang_tua_id' => 'required|integer|exists:orang_tua,id',
         ];
     }

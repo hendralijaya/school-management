@@ -30,7 +30,6 @@ class OrangTuaFactory extends Factory
             'gender' => $faker->randomElement(['M', 'F']),
             'tgl_lahir' => $faker->dateTimeBetween('-60 years', 'now')->format('Y-m-d'),
             'alamat' => $faker->address,
-            'status' => $faker->randomElement(['A', 'D']),
         ];
     }
 

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->char('gender')->length(1);
             $table->date('tgl_lahir');
             $table->text('alamat');
-            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 

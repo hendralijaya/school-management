@@ -16,6 +16,7 @@ use App\Http\Requests\API\v1\Siswa\CreateSiswaRequest;
 use App\Http\Requests\API\v1\Siswa\UpdateSiswaRequest;
 use App\OpenApi\Parameters\API\v1\Siswa\ListSiswaParameters;
 use App\OpenApi\RequestBodies\API\v1\Siswa\CreateSiswaRequestBody;
+use App\OpenApi\RequestBodies\API\v1\Siswa\UpdateSiswaRequestBody;
 
 #[OpenApi\PathItem]
 class SiswaController extends Controller
@@ -75,7 +76,6 @@ class SiswaController extends Controller
                 'tgl_bergabung' => $validatedData['tgl_bergabung'],
                 'tgl_lahir' => $validatedData['tgl_lahir'],
                 'alamat' => $validatedData['alamat'],
-                'status' => $validatedData['status'],
                 'orang_tua_id' => $validatedData['orang_tua_id'],
             ]);
 
@@ -118,7 +118,7 @@ class SiswaController extends Controller
      * Update the specified resource in storage.
      */
     #[OpenApi\Operation(tags: ['siswa'], method: 'put', security: JWTSecurityScheme::class)]
-    #[OpenApi\RequestBody(factory: CreateSiswaRequestBody::class)]
+    #[OpenApi\RequestBody(factory: UpdateSiswaRequestBody::class)]
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
         try {
@@ -131,7 +131,6 @@ class SiswaController extends Controller
                 'tgl_bergabung' => $validatedData['tgl_bergabung'],
                 'tgl_lahir' => $validatedData['tgl_lahir'],
                 'alamat' => $validatedData['alamat'],
-                'status' => $validatedData['status'],
             ]);
 
             $siswa->user()->update([
@@ -153,9 +152,6 @@ class SiswaController extends Controller
     {
         try {
             DB::beginTransaction();
-            $siswa->update([
-                'status' => 'D',
-            ]);
             $siswa->user()->update([
                 'status' => 'D',
             ]);

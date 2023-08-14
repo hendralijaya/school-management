@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nama', 100);
             $table->string('no_wa', 15);
             $table->char('gender', 1);
-            $table->enum('status', ['A', 'D'])->default('A');
         });
     }
 

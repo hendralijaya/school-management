@@ -72,7 +72,6 @@ class GuruController extends Controller
                 'tgl_bergabung' => $validatedData['tgl_bergabung'],
                 'tgl_lahir' => $validatedData['tgl_lahir'],
                 'alamat' => $validatedData['alamat'],
-                'status' => $validatedData['status'],
             ]);
 
             $user = new User([
@@ -117,14 +116,13 @@ class GuruController extends Controller
                 'tgl_bergabung' => $validatedData['tgl_bergabung'],
                 'tgl_lahir' => $validatedData['tgl_lahir'],
                 'alamat' => $validatedData['alamat'],
-                'status' => $validatedData['status'],
             ]);
             $guru->user()->update([
                 'status' => $validatedData['status'],
             ]);
             DB::commit();
             return response()->api($guru, 'Berhasil mengubah data guru', null, Response::HTTP_OK);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->api(null, 'Gagal mengubah data guru', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -138,16 +136,13 @@ class GuruController extends Controller
     {
         try {
             DB::beginTransaction();
-            $guru->update([
-                'status' => 'D',
-            ]);
             $guru->user()->update([
                 'status' => 'D',
             ]);
             DB::commit();
 
             return response()->api($guru, 'Berhasil menonaktifkan data guru', null, Response::HTTP_OK);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->api(null, 'Gagal menonaktifkan data guru', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }

@@ -18,7 +18,6 @@ class Admin extends Model
         'nama',
         'no_wa',
         'gender',
-        'status'
     ];
 
     public function user(): MorphOne
@@ -28,7 +27,9 @@ class Admin extends Model
 
     public function scopeFilterByStatus(Builder $query, string $status)
     {
-        return $query->where('status', $status);
+        return $query->whereHas('user', function ($query) use ($status) {
+            $query->where('status', $status);
+        });
     }
 
     public function scopeFilterByGender(Builder $query, string $gender)

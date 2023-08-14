@@ -26,10 +26,12 @@ class UpdateGuruRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // user
+            'status' => 'required|string|in:A,D',
             // guru
             'jabatan_guru_id' => [
                 'required',
-                new UniqueJabatanGuru,
+                new UniqueJabatanGuru($this->guru->id),
             ],
             'nama' => 'required',
             'no_wa' => 'required',
@@ -37,7 +39,6 @@ class UpdateGuruRequest extends FormRequest
             'tgl_bergabung' => 'required',
             'tgl_lahir' => 'required',
             'alamat' => 'required',
-            'status' => 'required',
         ];
     }
 }

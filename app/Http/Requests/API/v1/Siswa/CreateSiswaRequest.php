@@ -26,7 +26,7 @@ class CreateSiswaRequest extends FormRequest
             // user
             'email' => 'required|string|email|unique:user',
             'password' => 'required|string|min:6',
-
+            'status' => 'required|string|in:A,D',
             // siswa
             'nama' => 'required',
             'no_wa' => 'required|string|max:15',
@@ -34,7 +34,6 @@ class CreateSiswaRequest extends FormRequest
             'tgl_bergabung' => 'required|date|after:tgl_lahir',
             'tgl_lahir' => 'required|date|before:tgl_bergabung',
             'alamat' => 'required',
-            'status' => 'required',
             'orang_tua_id' => 'required|integer|exists:orang_tua,id',
         ];
     }

@@ -31,7 +31,6 @@ class SiswaFactory extends Factory
             'tgl_bergabung' => $faker->dateTimeBetween('-6 years', 'now')->format('Y-m-d'),
             'tgl_lahir' => $faker->dateTimeBetween('-15 years', 'now')->format('Y-m-d'),
             'alamat' => $faker->address,
-            'status' => $faker->randomElement(['A', 'D']),
             'orang_tua_id' => function () {
                 // get random orang_tua_id from database
                 return \App\Models\OrangTua::inRandomOrder()->first()->id;

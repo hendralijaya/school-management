@@ -27,7 +27,7 @@ class UpdateOrangTuaRequest extends FormRequest
             'gender' => 'required|string',
             'tgl_lahir' => 'required|string',
             'alamat' => 'required|string',
-            'status' => 'required|string',
+            'status' => 'required|string|in:A,D',
         ];
     }
 }

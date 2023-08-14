@@ -26,7 +26,6 @@ class AdminSeeder extends Seeder
             'nama' => 'Admin',
             'no_wa' => $phoneNumber,
             'gender' => 'M',
-            'status' => 'A'
         ]);
 
         // call user factory

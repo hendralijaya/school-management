@@ -25,13 +25,13 @@ class CreateOrangTuaRequest extends FormRequest
             // User
             'email' => 'required|string|email|unique:user',
             'password' => 'required|string|min:6',
+            'status' => 'required|string',
             // Orang Tua
             'nama' => 'required|string',
             'no_wa' => 'required|string|max:15',
             'gender' => 'required|string',
             'tgl_lahir' => 'required|string',
             'alamat' => 'required|string',
-            'status' => 'required|string',
         ];
     }
 }

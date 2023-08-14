@@ -22,11 +22,12 @@ class UpdateAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // user
+            'status' => 'required',
             // admin
             'nama' => 'required',
             'no_wa' => 'required',
             'gender' => 'required',
-            'status' => 'required',
         ];
     }
 }

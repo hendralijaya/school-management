@@ -18,6 +18,7 @@ use Database\Seeders\KurikulumSeeder;
 use Database\Seeders\JabatanGuruSeeder;
 use Database\Seeders\BiayaSekolahSeeder;
 use Database\Seeders\KategoriHariSeeder;
+use Database\Seeders\TingkatKelasSeeder;
 use Database\Seeders\KategoriWaktuSeeder;
 use Database\Seeders\MataPelajaranSeeder;
 use Database\Seeders\KategoriKegiatanSeeder;
@@ -49,7 +50,7 @@ class DatabaseSeeder extends Seeder
             BiayaSekolahSeeder::class,
             DiskonSeeder::class,
             KurikulumSeeder::class,
-
+            TingkatKelasSeeder::class,
         ]);
     }
 }

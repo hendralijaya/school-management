@@ -153,6 +153,7 @@ return [
     'uuid' => 'Kolom :attribute harus berupa UUID yang valid.',
 
     'unique_jabatan_guru' => 'Hanya boleh ada satu :jabatan_guru.',
+    'check_related_status' => 'Model :attribute harus memiliki status A',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

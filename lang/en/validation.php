@@ -153,6 +153,7 @@ return [
     'uuid' => 'The :attribute field must be a valid UUID.',
 
     'unique_jabatan_guru' => 'There can only be one :jabatan_guru.',
+    'check_related_status' => 'The :attribute model must have status A',
 
     /*
     |--------------------------------------------------------------------------

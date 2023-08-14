@@ -14,4 +14,9 @@ class Jurusan extends Model
     ];
     public $timestamps = false;
     use HasFactory;
+
+    public function tingkatKelas()
+    {
+        return $this->hasMany(TingkatKelas::class);
+    }
 }

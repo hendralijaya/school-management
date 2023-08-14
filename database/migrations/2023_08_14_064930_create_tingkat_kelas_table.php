@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('waktu', function (Blueprint $table) {
+        Schema::create('tingkat_kelas', function (Blueprint $table) {
             $table->id();
-            $table->time('waktu_mulai');
-            $table->time('waktu_selesai');
+            $table->string('nama', 50);
+            $table->enum('status', ['A', 'D'])->default('A');
+            // add foreignkey from jurusan
+            $table->unsignedBigInteger('jurusan_id');
+            $table->foreign('jurusan_id')->references('id')->on('jurusan');
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('waktu');
+        Schema::dropIfExists('tingkat_kelas');
     }
 };

@@ -22,7 +22,7 @@ class CreateKategoriKegiatanRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "nama_kategori" => "required|string|max:50|unique:kategori_kegiatan,nama_kategori",
+            "nama" => "required|string|max:50|unique:kategori_kegiatan,nama",
             "status" => "required|in:A,D",
         ];
     }

@@ -14,6 +14,7 @@ use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use App\Http\Requests\API\v1\Guru\CreateGuruRequest;
 use App\Http\Requests\API\v1\Guru\UpdateGuruRequest;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
+use App\OpenApi\Parameters\API\v1\Guru\ListGuruParameters;
 use App\OpenApi\RequestBodies\API\v1\Guru\CreateGuruRequestBody;
 use App\OpenApi\RequestBodies\API\v1\Guru\UpdateGuruRequestBody;
 
@@ -24,6 +25,7 @@ class GuruController extends Controller
      * Display a listing of the resource.
      */
     #[OpenApi\Operation(tags: ['guru'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListGuruParameters::class)]
     public function index(Request $request)
     {
         $filters = [

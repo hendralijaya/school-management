@@ -10,6 +10,9 @@ use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\Diskon\CreateDiskonRequest;
 use App\Http\Requests\API\v1\Diskon\UpdateDiskonRequest;
+use App\OpenApi\Parameters\API\v1\Diskon\ListDiskonParameters;
+use App\OpenApi\RequestBodies\API\v1\Diskon\CreateDiskonRequestBody;
+use App\OpenApi\RequestBodies\API\v1\Diskon\UpdateDiskonRequestBody;
 
 #[OpenApi\PathItem]
 class DiskonController extends Controller
@@ -18,6 +21,7 @@ class DiskonController extends Controller
      * Display a listing of the resource.
      */
     #[OpenApi\Operation(tags: ['diskon'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListDiskonParameters::class)]
     public function index(Request $request)
     {
         $filters =
@@ -46,6 +50,7 @@ class DiskonController extends Controller
      * Store a newly created resource in storage.
      */
     #[OpenApi\Operation(tags: ['diskon'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateDiskonRequestBody::class)]
     public function store(CreateDiskonRequest $request)
     {
         $validatedData = $request->validated();
@@ -68,6 +73,7 @@ class DiskonController extends Controller
      * Update the specified resource in storage.
      */
     #[OpenApi\Operation(tags: ['diskon'], method: 'patch', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateDiskonRequestBody::class)]
     public function update(UpdateDiskonRequest $request, Diskon $diskon)
     {
         $validatedData = $request->validated();

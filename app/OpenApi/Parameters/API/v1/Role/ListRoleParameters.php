@@ -22,7 +22,7 @@ class ListRoleParameters extends ParametersFactory
             Parameter::query()
                 ->name('status')
                 ->description('Filter by status')
-                ->schema(Schema::string()->enum(['active', 'inactive']))
+                ->schema(Schema::string()->enum(['A', 'D']))
                 ->required(false),
             Parameter::query()
                 ->name('search')

@@ -10,7 +10,7 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\KategoriKegiatan\CreateKategoriKegiatanRequest;
 use App\Http\Requests\API\v1\KategoriKegiatan\UpdateKategoriKegiatanRequest;
 
-// #[OpenApi\PathItem]
+#[OpenApi\PathItem]
 class KategoriKegiatanController extends Controller
 {
     /**

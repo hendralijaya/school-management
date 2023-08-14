@@ -1,6 +1,6 @@
 <?php
 
-namespace App\OpenApi\Schemas\API\v1\BiayaSekolah;
+namespace App\OpenApi\Schemas\API\v1\Diskon;
 
 use Vyuldashev\LaravelOpenApi\Contracts\Reusable;
 use GoldSpecDigital\ObjectOrientedOAS\Objects\Not;
@@ -11,18 +11,16 @@ use GoldSpecDigital\ObjectOrientedOAS\Objects\Schema;
 use Vyuldashev\LaravelOpenApi\Factories\SchemaFactory;
 use GoldSpecDigital\ObjectOrientedOAS\Contracts\SchemaContract;
 
-class UpdateBiayaSekolahSchema extends SchemaFactory implements Reusable
+class UpdateDiskonSchema extends SchemaFactory implements Reusable
 {
     /**
      * @return AllOf|OneOf|AnyOf|Not|Schema
      */
     public function build(): SchemaContract
     {
-        return Schema::object('UpdateBiayaSekolah')
+        return Schema::object('UpdateDiskon')
             ->properties(
-                Schema::string('nama')->required(),
-                Schema::string('harga')->required(),
-                Schema::string('status')->required(),
+                Schema::string('foo')
             );
     }
 }

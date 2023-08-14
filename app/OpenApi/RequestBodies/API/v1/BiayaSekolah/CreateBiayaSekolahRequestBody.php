@@ -12,7 +12,7 @@ class CreateBiayaSekolahRequestBody extends RequestBodyFactory
     public function build(): RequestBody
     {
         return RequestBody::create('CreateBiayaSekolah')
-            ->description('Biaya Sekolah')
+            ->description('Data yang dibutuhkan untuk membuat biaya sekolah baru')
             ->content(
                 MediaType::json()->schema(
                     CreateBiayaSekolahSchema::ref()

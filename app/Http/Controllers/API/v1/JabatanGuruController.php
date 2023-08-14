@@ -10,6 +10,8 @@ use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\JabatanGuru\CreateJabatanGuruRequest;
 use App\Http\Requests\API\v1\JabatanGuru\UpdateJabatanGuruRequest;
+use App\OpenApi\Parameters\API\v1\JabatanGuru\ListJabatanGuruParameters;
+use App\OpenApi\RequestBodies\API\v1\JabatanGuru\CreateJabatanGuruRequestBody;
 
 #[OpenApi\PathItem]
 class JabatanGuruController extends Controller
@@ -18,6 +20,7 @@ class JabatanGuruController extends Controller
      * Display a listing of the resource.
      */
     #[OpenApi\Operation(tags: ['jabatan-guru'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListJabatanGuruParameters::class)]
     public function index(Request $request)
     {
         $filters =
@@ -45,6 +48,7 @@ class JabatanGuruController extends Controller
      * Store a newly created resource in storage.
      */
     #[OpenApi\Operation(tags: ['jabatan-guru'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateJabatanGuruRequestBody::class)]
     public function store(CreateJabatanGuruRequest $request)
     {
         $validatedData = $request->validated();
@@ -67,6 +71,7 @@ class JabatanGuruController extends Controller
      * Update the specified resource in storage.
      */
     #[OpenApi\Operation(tags: ['jabatan-guru'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateJabatanGuruRequestBody::class)]
     public function update(UpdateJabatanGuruRequest $request, JabatanGuru $jabatanGuru)
     {
         $validatedData = $request->validated();

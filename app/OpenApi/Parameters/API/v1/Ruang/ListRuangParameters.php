@@ -25,9 +25,9 @@ class ListRuangParameters extends ParametersFactory
                 ->schema(Schema::string()->enum(['A', 'D']))
                 ->required(false),
             Parameter::query()
-                ->name('capacity_from && capacity_to')
+                ->name('capacity_from & capacity_to')
                 ->description('Filter By Capacity')
-                ->schema(Schema::string()->default('20&&30'))
+                ->schema(Schema::string()->default('20&30'))
                 ->required(false),
             Parameter::query()
                 ->name('search')

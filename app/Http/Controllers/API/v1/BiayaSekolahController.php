@@ -10,6 +10,9 @@ use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\BiayaSekolah\CreateBiayaSekolahRequest;
 use App\Http\Requests\API\v1\BiayaSekolah\UpdateBiayaSekolahRequest;
+use App\OpenApi\Parameters\API\v1\BiayaSekolah\ListBiayaSekolahParameters;
+use App\OpenApi\RequestBodies\API\v1\BiayaSekolah\CreateBiayaSekolahRequestBody;
+use App\OpenApi\RequestBodies\API\v1\BiayaSekolah\UpdateBiayaSekolahRequestBody;
 
 #[OpenApi\PathItem]
 class BiayaSekolahController extends Controller
@@ -18,7 +21,7 @@ class BiayaSekolahController extends Controller
      * Display a listing of the resource.
      */
     #[OpenApi\Operation(tags: ['biaya-sekolah'], method: 'get', security: JWTSecurityScheme::class)]
-    // #[OpenApi\Parameters(factory: ListBiayaSekolahParameters::class)]
+    #[OpenApi\Parameters(factory: ListBiayaSekolahParameters::class)]
     public function index(Request $request)
     {
         $filters =
@@ -46,6 +49,7 @@ class BiayaSekolahController extends Controller
      * Store a newly created resource in storage.
      */
     #[OpenApi\Operation(tags: ['biaya-sekolah'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateBiayaSekolahRequestBody::class)]
     public function store(CreateBiayaSekolahRequest $request)
     {
         $validatedData = $request->validated();
@@ -67,6 +71,7 @@ class BiayaSekolahController extends Controller
      * Update the specified resource in storage.
      */
     #[OpenApi\Operation(tags: ['biaya-sekolah'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateBiayaSekolahRequestBody::class)]
     public function update(UpdateBiayaSekolahRequest $request, BiayaSekolah $biayaSekolah)
     {
         $validatedData = $request->validated();

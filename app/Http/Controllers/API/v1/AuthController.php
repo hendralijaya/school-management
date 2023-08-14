@@ -17,7 +17,7 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 #[OpenApi\PathItem]
 class AuthController extends Controller
 {
-    // #[OpenApi\Operation(tags: ['auth'], method: 'post')]
+    // #[OpenApi\Operation(null, ['auth'], null, 'POST', null)]
     public function register(RegisterRequest $request)
     {
         $validatedData = $request->validated();

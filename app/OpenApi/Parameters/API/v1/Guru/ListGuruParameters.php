@@ -30,7 +30,7 @@ class ListGuruParameters extends ParametersFactory
                 ->schema(Schema::string()->enum(['A', 'D']))
                 ->required(false),
             Parameter::query()
-                ->name('tgl_bergabung_from && tgl_bergabung_to')
+                ->name('tgl_bergabung_from & tgl_bergabung_to')
                 ->description('Filter By Tanggal Bergabung')
                 ->schema(Schema::string()->default('2019-01-01'))
                 ->required(false),

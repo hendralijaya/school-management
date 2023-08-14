@@ -6,14 +6,22 @@ use Illuminate\Http\Request;
 use App\Models\KategoriWaktu;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\KategoriWaktu\CreateKategoriWaktuRequest;
 use App\Http\Requests\API\v1\KategoriWaktu\UpdateKategoriWaktuRequest;
+use App\OpenApi\Parameters\API\v1\KategoriWaktu\ListKategoriWaktuParameters;
+use App\OpenApi\RequestBodies\API\v1\KategoriWaktu\CreateKategoriWaktuRequestBody;
+use App\OpenApi\RequestBodies\API\v1\KategoriWaktu\UpdateKategoriWaktuRequestBody;
 
+#[OpenApi\PathItem]
 class KategoriWaktuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    #[OpenApi\Operation(tags: ['kategori-waktu'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListKategoriWaktuParameters::class)]
     public function index(Request $request)
     {
         $filters =
@@ -41,6 +49,8 @@ class KategoriWaktuController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    #[OpenApi\Operation(tags: ['kategori-waktu'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateKategoriWaktuRequestBody::class)]
     public function store(CreateKategoriWaktuRequest $request)
     {
         $validatedData = $request->validated();
@@ -53,6 +63,7 @@ class KategoriWaktuController extends Controller
     /**
      * Display the specified resource.
      */
+    #[OpenApi\Operation(id: 'kategoriWaktu', tags: ['kategori-waktu'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(KategoriWaktu $kategoriWaktu)
     {
         return response()->api($kategoriWaktu, 'Berhasil mendapatkan detail kategori waktu', null, Response::HTTP_OK);
@@ -61,6 +72,8 @@ class KategoriWaktuController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    #[OpenApi\Operation(id: 'kategoriWaktu', tags: ['kategori-waktu'], method: 'patch', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateKategoriWaktuRequestBody::class)]
     public function update(UpdateKategoriWaktuRequest $request, KategoriWaktu $kategoriWaktu)
     {
         $validatedData = $request->validated();
@@ -73,6 +86,7 @@ class KategoriWaktuController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    #[OpenApi\Operation(id: 'kategoriWaktu', tags: ['kategori-waktu'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(KategoriWaktu $kategoriWaktu)
     {
         $kategoriWaktu->update(['status' => 'D']);

@@ -62,7 +62,7 @@ class BiayaSekolahController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['biaya-sekolah'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'biayaSekolah', tags: ['biaya-sekolah'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(BiayaSekolah $biayaSekolah)
     {
         return response()->api($biayaSekolah, 'Berhasil mendapatkan data biaya sekolah', null, Response::HTTP_OK);
@@ -70,7 +70,7 @@ class BiayaSekolahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['biaya-sekolah'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'biayaSekolah', tags: ['biaya-sekolah'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateBiayaSekolahRequestBody::class)]
     public function update(UpdateBiayaSekolahRequest $request, BiayaSekolah $biayaSekolah)
     {
@@ -84,7 +84,7 @@ class BiayaSekolahController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['biaya-sekolah'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'biayaSekolah', tags: ['biaya-sekolah'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(BiayaSekolah $biayaSekolah)
     {
         $biayaSekolah->update(['status' => 'D']);

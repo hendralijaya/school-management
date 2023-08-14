@@ -1,8 +1,8 @@
-php artisan openapi:make-parameters API/v1/KategoriKegiatan/ListKategoriKegiatanParameters
-php artisan openapi:make-requestbody API/v1/KategoriKegiatan/CreateKategoriKegiatan
-php artisan openapi:make-requestbody API/v1/KategoriKegiatan/UpdateKategoriKegiatan
-php artisan openapi:make-schema API/v1/KategoriKegiatan/CreateKategoriKegiatan
-php artisan openapi:make-schema API/v1/KategoriKegiatan/UpdateKategoriKegiatan
+php artisan openapi:make-parameters API/v1/Kurikulum/ListKurikulumParameters
+php artisan openapi:make-requestbody API/v1/Kurikulum/CreateKurikulum
+php artisan openapi:make-requestbody API/v1/Kurikulum/UpdateKurikulum
+php artisan openapi:make-schema API/v1/Kurikulum/CreateKurikulum
+php artisan openapi:make-schema API/v1/Kurikulum/UpdateKurikulum
 
 php artisan make:request API/v1/JabatanGuru/CreateJabatanGuruRequest
 php artisan make:request API/v1/JabatanGuru/UpdateJabatanGuruRequest

@@ -63,7 +63,7 @@ class DiskonController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['diskon'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'diskon', tags: ['diskon'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Diskon $diskon)
     {
         return response()->api($diskon, 'Berhasil mendapatkan data diskon', null, Response::HTTP_OK);
@@ -72,7 +72,7 @@ class DiskonController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['diskon'], method: 'patch', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'diskon', tags: ['diskon'], method: 'patch', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateDiskonRequestBody::class)]
     public function update(UpdateDiskonRequest $request, Diskon $diskon)
     {
@@ -86,7 +86,7 @@ class DiskonController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['diskon'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'diskon', tags: ['diskon'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Diskon $diskon)
     {
         $diskon->update(['status' => 'D']);

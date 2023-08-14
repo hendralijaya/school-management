@@ -11,6 +11,7 @@ use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\MataPelajaran\CreateMataPelajaranRequest;
 use App\Http\Requests\API\v1\MataPelajaran\UpdateMataPelajaranRequest;
 use App\OpenApi\RequestBodies\API\v1\MataPelajaran\CreateMataPelajaranRequestBody;
+use App\OpenApi\RequestBodies\API\v1\MataPelajaran\UpdateMataPelajaranRequestBody;
 
 #[OpenApi\PathItem]
 class MataPelajaranController extends Controller
@@ -61,7 +62,7 @@ class MataPelajaranController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['mata-pelajaran'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'mataPelajaran', tags: ['mata-pelajaran'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(MataPelajaran $mataPelajaran)
     {
         return response()->api($mataPelajaran, 'Berhasil mendapatkan data mata pelajaran', null, Response::HTTP_OK);
@@ -70,7 +71,8 @@ class MataPelajaranController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['mata-pelajaran'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'mataPelajaran', tags: ['mata-pelajaran'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateMataPelajaranRequestBody::class)]
     public function update(UpdateMataPelajaranRequest $request, MataPelajaran $mataPelajaran)
     {
         $validated = $request->validated();
@@ -83,7 +85,7 @@ class MataPelajaranController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['mata-pelajaran'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'mataPelajaran', tags: ['mata-pelajaran'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(MataPelajaran $mataPelajaran)
     {
         $mataPelajaran->update(['status' => 'D']);

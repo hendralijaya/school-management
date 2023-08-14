@@ -64,7 +64,7 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['role'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'role', tags: ['role'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Role $role)
     {
         return response()->api($role, 'Berhasil mendapatkan data role', null, Response::HTTP_OK);
@@ -73,7 +73,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['role'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'role', tags: ['role'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateRoleRequestBody::class)]
     public function update(UpdateRoleRequest $request, Role $role)
     {
@@ -90,7 +90,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['role'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'role', tags: ['role'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Role $role)
     {
         // Check if the role's name is "Admin"

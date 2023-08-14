@@ -64,7 +64,7 @@ class KategoriHariController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['kategori-hari'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'kategoriHari', tags: ['kategori-hari'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(KategoriHari $kategoriHari)
     {
         return response()->api($kategoriHari, 'Berhasil mendapatkan data kategori hari', null, Response::HTTP_OK);
@@ -73,7 +73,7 @@ class KategoriHariController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['kategori-hari'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'kategoriHari', tags: ['kategori-hari'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateKategoriHariRequestBody::class)]
     public function update(UpdateKategoriHariRequest $request, KategoriHari $kategoriHari)
     {
@@ -87,7 +87,7 @@ class KategoriHariController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['kategori-hari'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'kategoriHari', tags: ['kategori-hari'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(KategoriHari $kategoriHari)
     {
         $kategoriHari->update(['status' => 'D']);

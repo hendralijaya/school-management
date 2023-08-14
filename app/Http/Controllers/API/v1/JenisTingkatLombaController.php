@@ -63,7 +63,7 @@ class JenisTingkatLombaController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['jenis-tingkat-lomba'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'jenisTingkatLomba', tags: ['jenis-tingkat-lomba'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(JenisTingkatLomba $jenisTingkatLomba)
     {
         return response()->api($jenisTingkatLomba, 'Berhasil mendapatkan data jenis tingkat lomba', null, Response::HTTP_OK);
@@ -72,7 +72,7 @@ class JenisTingkatLombaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['jenis-tingkat-lomba'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'jenisTingkatLomba', tags: ['jenis-tingkat-lomba'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateJenisTingkatLombaRequestBody::class)]
     public function update(UpdateJenisTingkatLombaRequest $request, JenisTingkatLomba $jenisTingkatLomba)
     {
@@ -86,7 +86,7 @@ class JenisTingkatLombaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['jenis-tingkat-lomba'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'jenisTingkatLomba', tags: ['jenis-tingkat-lomba'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(JenisTingkatLomba $jenisTingkatLomba)
     {
         $jenisTingkatLomba->update(['status' => 'D']);

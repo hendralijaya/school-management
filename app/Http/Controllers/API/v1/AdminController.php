@@ -85,7 +85,7 @@ class AdminController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['admin'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'admin', tags: ['admin'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Admin $admin)
     {
         return response()->api($admin, 'Berhasil mendapatkan data admin', null, Response::HTTP_OK);
@@ -94,7 +94,7 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['admin'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'admin', tags: ['admin'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateAdminRequestBody::class)]
     public function update(UpdateAdminRequest $request, Admin $admin)
     {
@@ -123,19 +123,16 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['admin'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'admin', tags: ['admin'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Admin $admin)
     {
         try {
-            DB::beginTransaction();
             $admin->user->update([
                 'status' => 'D',
             ]);
-            DB::commit();
 
             return response()->api($admin, 'Admin berhasil dinonaktifkan', null, Response::HTTP_OK);
         } catch (Exception $e) {
-            DB::rollBack();
             return response()->api(null, 'Admin gagal dinonaktifkan', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

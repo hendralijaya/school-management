@@ -61,7 +61,7 @@ class JabatanGuruController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['jabatan-guru'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'jabatanGuru', tags: ['jabatan-guru'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(JabatanGuru $jabatanGuru)
     {
         return response()->api($jabatanGuru, 'Berhasil mendapatkan data Jabatan Guru', null, Response::HTTP_OK);
@@ -70,7 +70,7 @@ class JabatanGuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['jabatan-guru'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'jabatanGuru', tags: ['jabatan-guru'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: CreateJabatanGuruRequestBody::class)]
     public function update(UpdateJabatanGuruRequest $request, JabatanGuru $jabatanGuru)
     {
@@ -84,7 +84,7 @@ class JabatanGuruController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['jabatan-guru'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'jabatanGuru', tags: ['jabatan-guru'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(JabatanGuru $jabatanGuru)
     {
         $jabatanGuru->update(['status' => 'D']);

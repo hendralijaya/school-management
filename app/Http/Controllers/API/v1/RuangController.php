@@ -63,7 +63,7 @@ class RuangController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['ruang'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'ruang', tags: ['ruang'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Ruang $ruang)
     {
         return response()->api($ruang, 'Berhasil mendapatkan data ruang', null, Response::HTTP_OK);
@@ -72,7 +72,7 @@ class RuangController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['ruang'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'ruang', tags: ['ruang'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: CreateRuangRequestBody::class)]
     public function update(UpdateRuangRequest $request, Ruang $ruang)
     {
@@ -86,7 +86,7 @@ class RuangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['ruang'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'ruang', tags: ['ruang'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Ruang $ruang)
     {
         $ruang->update(['status' => 'D']);

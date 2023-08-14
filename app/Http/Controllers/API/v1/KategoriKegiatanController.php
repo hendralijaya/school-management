@@ -62,7 +62,7 @@ class KategoriKegiatanController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['kategori-kegiatan'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'kategoriKegiatan', tags: ['kategori-kegiatan'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(KategoriKegiatan $kategoriKegiatan)
     {
         return response()->api($kategoriKegiatan, 'Berhasil mendapatkan data kategori kegiatan', null, Response::HTTP_OK);
@@ -71,7 +71,7 @@ class KategoriKegiatanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['kategori-kegiatan'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'kategoriKegiatan', tags: ['kategori-kegiatan'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateKategoriKegiatanRequestBody::class)]
     public function update(UpdateKategoriKegiatanRequest $request, KategoriKegiatan $kategoriKegiatan)
     {
@@ -85,7 +85,7 @@ class KategoriKegiatanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['kategori-kegiatan'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'kategoriKegiatan', tags: ['kategori-kegiatan'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(KategoriKegiatan $kategoriKegiatan)
     {
         $kategoriKegiatan->update(['status' => 'D']);

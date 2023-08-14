@@ -95,7 +95,7 @@ class GuruController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['guru'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'guru', tags: ['guru'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Guru $guru)
     {
         return response()->api($guru, 'Berhasil mendapatkan data guru', null, Response::HTTP_OK);
@@ -104,7 +104,7 @@ class GuruController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['guru'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'guru', tags: ['guru'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateGuruRequestBody::class)]
     public function update(UpdateGuruRequest $request, Guru $guru)
     {
@@ -133,19 +133,15 @@ class GuruController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['guru'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'guru', tags: ['guru'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Guru $guru)
     {
         try {
-            DB::beginTransaction();
             $guru->user()->update([
                 'status' => 'D',
             ]);
-            DB::commit();
-
             return response()->api($guru, 'Berhasil menonaktifkan data guru', null, Response::HTTP_OK);
         } catch (Exception $e) {
-            DB::rollBack();
             return response()->api(null, 'Gagal menonaktifkan data guru', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

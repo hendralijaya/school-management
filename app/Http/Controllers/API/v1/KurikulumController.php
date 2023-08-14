@@ -6,14 +6,22 @@ use App\Models\Kurikulum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use App\OpenApi\SecuritySchemes\JWTSecurityScheme;
+use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 use App\Http\Requests\API\v1\Kurikulum\CreateKurikulumRequest;
 use App\Http\Requests\API\v1\Kurikulum\UpdateKurikulumRequest;
+use App\OpenApi\Parameters\API\v1\Kurikulum\ListKurikulumParameters;
+use App\OpenApi\RequestBodies\API\v1\Kurikulum\CreateKurikulumRequestBody;
+use App\OpenApi\RequestBodies\API\v1\Kurikulum\UpdateKurikulumRequestBody;
 
+#[OpenApi\PathItem]
 class KurikulumController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    #[OpenApi\Operation(tags: ['kurikulum'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Parameters(factory: ListKurikulumParameters::class)]
     public function index(Request $request)
     {
         $filters = [
@@ -40,6 +48,8 @@ class KurikulumController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    #[OpenApi\Operation(tags: ['kurikulum'], method: 'post', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: CreateKurikulumRequestBody::class)]
     public function store(CreateKurikulumRequest $request)
     {
         $validatedData = $request->validated();
@@ -52,6 +62,7 @@ class KurikulumController extends Controller
     /**
      * Display the specified resource.
      */
+    #[OpenApi\Operation(id: 'kurikulum', tags: ['kurikulum'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Kurikulum $kurikulum)
     {
         return response()->api($kurikulum, 'Berhasil mendapatkan detail kurikulum', null, Response::HTTP_OK);
@@ -60,6 +71,8 @@ class KurikulumController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    #[OpenApi\Operation(id: 'kurikulum', tags: ['kurikulum'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\RequestBody(factory: UpdateKurikulumRequestBody::class)]
     public function update(UpdateKurikulumRequest $request, Kurikulum $kurikulum)
     {
         $validatedData = $request->validated();
@@ -72,6 +85,7 @@ class KurikulumController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    #[OpenApi\Operation(id: 'kurikulum', tags: ['kurikulum'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Kurikulum $kurikulum)
     {
         $kurikulum->update(['status' => 'D']);

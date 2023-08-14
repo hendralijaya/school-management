@@ -64,7 +64,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['user'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'user', tags: ['user'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(User $user)
     {
         return response()->api($user, 'Berhasil mendapatkan data user', null, Response::HTTP_OK);
@@ -73,7 +73,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['user'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'user', tags: ['user'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateUserRequestBody::class)]
     public function update(UpdateUserRequest $request, User $user)
     {
@@ -96,14 +96,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(null, tags: ['user'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'user', tags: ['user'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(User $user)
     {
         try {
-            DB::beginTransaction();
             $user->update(['status' => 'D']);
-            $user->userable()->update(['status' => 'D']);
-            DB::commit();
 
             return response()->api($user, 'Berhasil menonaktifkan data user', null, Response::HTTP_OK);
         } catch (\Exception $e) {

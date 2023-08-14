@@ -87,7 +87,7 @@ class OrangTuaController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['orang-tua'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'orangTua', tags: ['orang-tua'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(OrangTua $orangTua)
     {
         return response()->api($orangTua, 'Berhasil mendapatkan data orang tua', null, Response::HTTP_OK);
@@ -96,7 +96,7 @@ class OrangTuaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['orang-tua'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'orangTua', tags: ['orang-tua'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateOrangTuaRequestBody::class)]
     public function update(UpdateOrangTuaRequest $request, OrangTua $orangTua)
     {
@@ -126,7 +126,7 @@ class OrangTuaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['orang-tua'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'orangTua', tags: ['orang-tua'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(OrangTua $orangTua)
     {
         try {
@@ -136,7 +136,6 @@ class OrangTuaController extends Controller
 
             return response()->api(null, 'Orang tua berhasil dinonaktifkan', null, Response::HTTP_OK);
         } catch (Exception $e) {
-            DB::rollBack();
             return response()->api(null, 'Gagal menonaktifkan data orang tua', null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

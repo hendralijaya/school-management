@@ -100,7 +100,7 @@ class SiswaController extends Controller
     /**
      * Display the specified resource.
      */
-    #[OpenApi\Operation(tags: ['siswa'], method: 'get', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'siswa', tags: ['siswa'], method: 'get', security: JWTSecurityScheme::class)]
     public function show(Siswa $siswa)
     {
         return response()->api($siswa, 'Berhasil mendapatkan data siswa', null, Response::HTTP_OK);
@@ -117,7 +117,7 @@ class SiswaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    #[OpenApi\Operation(tags: ['siswa'], method: 'put', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'siswa', tags: ['siswa'], method: 'put', security: JWTSecurityScheme::class)]
     #[OpenApi\RequestBody(factory: UpdateSiswaRequestBody::class)]
     public function update(UpdateSiswaRequest $request, Siswa $siswa)
     {
@@ -147,18 +147,15 @@ class SiswaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    #[OpenApi\Operation(tags: ['siswa'], method: 'delete', security: JWTSecurityScheme::class)]
+    #[OpenApi\Operation(id: 'siswa', tags: ['siswa'], method: 'delete', security: JWTSecurityScheme::class)]
     public function deactivate(Siswa $siswa)
     {
         try {
-            DB::beginTransaction();
             $siswa->user()->update([
                 'status' => 'D',
             ]);
-            DB::commit();
             return response()->api($siswa, 'Berhasil menonaktifkan data siswa', null, Response::HTTP_OK);
         } catch (Exception $e) {
-            DB::rollBack();
             return response()->api(null, 'Gagal menonaktifkan data siswa', $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

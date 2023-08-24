@@ -26,18 +26,16 @@ class KategoriWaktuController extends Controller
     {
         $filters =
             [
-                'per_page' => $request->query('per_page'),
+                'per_page' => $request->query('per_page', 10),
                 'search' => $request->query('search'),
                 'status' => $request->query('status'),
             ];
-
-        $perPage = $filters['per_page'] ?? 10;
 
         $kategoriWaktuQuery = KategoriWaktu::query()
             ->when($filters['search'], fn ($query, $search) => $query->search($search))
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status));
 
-        $kategoriWaktu = $kategoriWaktuQuery->paginate($perPage);
+        $kategoriWaktu = $kategoriWaktuQuery->paginate($filters['per_page']);
 
         if ($kategoriWaktu->isEmpty()) {
             return response()->api(null, 'Tidak ada data kategori waktu', null, Response::HTTP_NOT_FOUND);

@@ -8,10 +8,12 @@ use Database\Seeders\GuruSeeder;
 use Database\Seeders\HariSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\AdminSeeder;
+use Database\Seeders\KelasSeeder;
 use Database\Seeders\RuangSeeder;
 use Database\Seeders\SiswaSeeder;
 use Database\Seeders\WaktuSeeder;
 use Database\Seeders\DiskonSeeder;
+use Database\Seeders\JadwalSeeder;
 use Database\Seeders\JurusanSeeder;
 use Database\Seeders\OrangTuaSeeder;
 use Database\Seeders\KurikulumSeeder;
@@ -51,6 +53,8 @@ class DatabaseSeeder extends Seeder
             DiskonSeeder::class,
             KurikulumSeeder::class,
             TingkatKelasSeeder::class,
+            KelasSeeder::class,
+            JadwalSeeder::class,
         ]);
     }
 }

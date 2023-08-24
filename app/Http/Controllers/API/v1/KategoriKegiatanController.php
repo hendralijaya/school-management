@@ -25,18 +25,16 @@ class KategoriKegiatanController extends Controller
     public function index(Request $request)
     {
         $filters = [
-            'per_page' => $request->input('per_page'),
+            'per_page' => $request->input('per_page', 10),
             'search' => $request->input('search'),
             'status' => $request->input('status'),
         ];
-
-        $perPage = $filters['per_page'] ?? 10;
 
         $kategoriKegiatanQuery = KategoriKegiatan::query()
             ->when($filters['search'], fn ($query, $search) => $query->search($search))
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status));
 
-        $kategoriKegiatan = $kategoriKegiatanQuery->paginate($perPage);
+        $kategoriKegiatan = $kategoriKegiatanQuery->paginate($filters['per_page']);
 
         if ($kategoriKegiatan->isEmpty()) {
             return response()->api(null, 'Tidak ada data kategori kegiatan', null, Response::HTTP_NOT_FOUND);

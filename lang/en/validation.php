@@ -167,9 +167,7 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'date_range_overlap' => 'The date range overlaps with existing data in the :table table.',
     ],
 
     /*

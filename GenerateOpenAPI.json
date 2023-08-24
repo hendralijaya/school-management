@@ -85,6 +85,7 @@
             "get": {
                 "tags": ["user"],
                 "summary": "Display the specified resource.",
+                "operationId": "user",
                 "parameters": [
                     {
                         "name": "user",
@@ -104,6 +105,7 @@
             "put": {
                 "tags": ["user"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "user",
                 "parameters": [
                     {
                         "name": "user",
@@ -133,6 +135,7 @@
             "delete": {
                 "tags": ["user"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "user",
                 "parameters": [
                     {
                         "name": "user",
@@ -171,7 +174,7 @@
                         "description": "Filter by status",
                         "required": false,
                         "schema": {
-                            "enum": [["active", "inactive"]],
+                            "enum": [["A", "D"]],
                             "type": "string"
                         }
                     },
@@ -215,6 +218,7 @@
             "get": {
                 "tags": ["role"],
                 "summary": "Display the specified resource.",
+                "operationId": "role",
                 "parameters": [
                     {
                         "name": "role",
@@ -234,6 +238,7 @@
             "put": {
                 "tags": ["role"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "role",
                 "parameters": [
                     {
                         "name": "role",
@@ -263,6 +268,7 @@
             "delete": {
                 "tags": ["role"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "role",
                 "parameters": [
                     {
                         "name": "role",
@@ -355,6 +361,7 @@
             "get": {
                 "tags": ["admin"],
                 "summary": "Display the specified resource.",
+                "operationId": "admin",
                 "parameters": [
                     {
                         "name": "admin",
@@ -374,6 +381,7 @@
             "put": {
                 "tags": ["admin"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "admin",
                 "parameters": [
                     {
                         "name": "admin",
@@ -403,6 +411,7 @@
             "delete": {
                 "tags": ["admin"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "admin",
                 "parameters": [
                     {
                         "name": "admin",
@@ -456,7 +465,7 @@
                         }
                     },
                     {
-                        "name": "tgl_bergabung_from && tgl_bergabung_to",
+                        "name": "tgl_bergabung_from & tgl_bergabung_to",
                         "in": "query",
                         "description": "Filter By Tanggal Bergabung",
                         "required": false,
@@ -505,6 +514,7 @@
             "get": {
                 "tags": ["siswa"],
                 "summary": "Display the specified resource.",
+                "operationId": "siswa",
                 "parameters": [
                     {
                         "name": "siswa",
@@ -524,6 +534,7 @@
             "put": {
                 "tags": ["siswa"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "siswa",
                 "parameters": [
                     {
                         "name": "siswa",
@@ -553,6 +564,7 @@
             "delete": {
                 "tags": ["siswa"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "siswa",
                 "parameters": [
                     {
                         "name": "siswa",
@@ -574,6 +586,57 @@
             "get": {
                 "tags": ["guru"],
                 "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "Filter by gender",
+                        "required": false,
+                        "schema": {
+                            "enum": [["M", "F"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tgl_bergabung_from & tgl_bergabung_to",
+                        "in": "query",
+                        "description": "Filter By Tanggal Bergabung",
+                        "required": false,
+                        "schema": {
+                            "default": "2019-01-01",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "security": [
                     {
                         "JWT": []
@@ -604,6 +667,7 @@
             "get": {
                 "tags": ["guru"],
                 "summary": "Display the specified resource.",
+                "operationId": "guru",
                 "parameters": [
                     {
                         "name": "guru",
@@ -623,6 +687,7 @@
             "put": {
                 "tags": ["guru"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "guru",
                 "parameters": [
                     {
                         "name": "guru",
@@ -652,6 +717,7 @@
             "delete": {
                 "tags": ["guru"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "guru",
                 "parameters": [
                     {
                         "name": "guru",
@@ -744,6 +810,7 @@
             "get": {
                 "tags": ["orang-tua"],
                 "summary": "Display the specified resource.",
+                "operationId": "orangTua",
                 "parameters": [
                     {
                         "name": "orangTua",
@@ -763,6 +830,7 @@
             "put": {
                 "tags": ["orang-tua"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "orangTua",
                 "parameters": [
                     {
                         "name": "orangTua",
@@ -783,6 +851,7 @@
             "delete": {
                 "tags": ["orang-tua"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "orangTua",
                 "parameters": [
                     {
                         "name": "orangTua",
@@ -826,12 +895,12 @@
                         }
                     },
                     {
-                        "name": "capacity_from && capacity_to",
+                        "name": "capacity_from & capacity_to",
                         "in": "query",
                         "description": "Filter By Capacity",
                         "required": false,
                         "schema": {
-                            "default": "20&&30",
+                            "default": "20&30",
                             "type": "string"
                         }
                     },
@@ -875,6 +944,7 @@
             "get": {
                 "tags": ["ruang"],
                 "summary": "Display the specified resource.",
+                "operationId": "ruang",
                 "parameters": [
                     {
                         "name": "ruang",
@@ -894,6 +964,7 @@
             "put": {
                 "tags": ["ruang"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "ruang",
                 "parameters": [
                     {
                         "name": "ruang",
@@ -923,6 +994,7 @@
             "delete": {
                 "tags": ["ruang"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "ruang",
                 "parameters": [
                     {
                         "name": "ruang",
@@ -974,6 +1046,7 @@
             "get": {
                 "tags": ["mata-pelajaran"],
                 "summary": "Display the specified resource.",
+                "operationId": "mataPelajaran",
                 "parameters": [
                     {
                         "name": "mataPelajaran",
@@ -993,6 +1066,7 @@
             "put": {
                 "tags": ["mata-pelajaran"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "mataPelajaran",
                 "parameters": [
                     {
                         "name": "mataPelajaran",
@@ -1003,6 +1077,16 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "description": "Update Mata Pelajaran",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateMataPelajaran"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1012,6 +1096,7 @@
             "delete": {
                 "tags": ["mata-pelajaran"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "mataPelajaran",
                 "parameters": [
                     {
                         "name": "mataPelajaran",
@@ -1094,6 +1179,7 @@
             "get": {
                 "tags": ["jenis-tingkat-lomba"],
                 "summary": "Display the specified resource.",
+                "operationId": "jenisTingkatLomba",
                 "parameters": [
                     {
                         "name": "jenisTingkatLomba",
@@ -1113,6 +1199,7 @@
             "put": {
                 "tags": ["jenis-tingkat-lomba"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "jenisTingkatLomba",
                 "parameters": [
                     {
                         "name": "jenisTingkatLomba",
@@ -1142,9 +1229,143 @@
             "delete": {
                 "tags": ["jenis-tingkat-lomba"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "jenisTingkatLomba",
                 "parameters": [
                     {
                         "name": "jenisTingkatLomba",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/kategori-kegiatan": {
+            "get": {
+                "tags": ["kategori-kegiatan"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["kategori-kegiatan"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Data untuk membuat kategori kegiatan baru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateKategoriKegiatan"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/kategori-kegiatan/{kategoriKegiatan}": {
+            "get": {
+                "tags": ["kategori-kegiatan"],
+                "summary": "Display the specified resource.",
+                "operationId": "kategoriKegiatan",
+                "parameters": [
+                    {
+                        "name": "kategoriKegiatan",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["kategori-kegiatan"],
+                "summary": "Update the specified resource in storage.",
+                "operationId": "kategoriKegiatan",
+                "parameters": [
+                    {
+                        "name": "kategoriKegiatan",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data untuk mengubah kategori kegiatan",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateKategoriKegiatan"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["kategori-kegiatan"],
+                "summary": "Remove the specified resource from storage.",
+                "operationId": "kategoriKegiatan",
+                "parameters": [
+                    {
+                        "name": "kategoriKegiatan",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1163,6 +1384,37 @@
             "get": {
                 "tags": ["jabatan-guru"],
                 "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "security": [
                     {
                         "JWT": []
@@ -1172,6 +1424,16 @@
             "post": {
                 "tags": ["jabatan-guru"],
                 "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Create Jabatan Guru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateJabatanGuru"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1183,6 +1445,7 @@
             "get": {
                 "tags": ["jabatan-guru"],
                 "summary": "Display the specified resource.",
+                "operationId": "jabatanGuru",
                 "parameters": [
                     {
                         "name": "jabatanGuru",
@@ -1202,6 +1465,7 @@
             "put": {
                 "tags": ["jabatan-guru"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "jabatanGuru",
                 "parameters": [
                     {
                         "name": "jabatanGuru",
@@ -1212,6 +1476,16 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "description": "Create Jabatan Guru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateJabatanGuru"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1221,6 +1495,7 @@
             "delete": {
                 "tags": ["jabatan-guru"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "jabatanGuru",
                 "parameters": [
                     {
                         "name": "jabatanGuru",
@@ -1242,6 +1517,37 @@
             "get": {
                 "tags": ["diskon"],
                 "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "security": [
                     {
                         "JWT": []
@@ -1251,6 +1557,16 @@
             "post": {
                 "tags": ["diskon"],
                 "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Data yang dibutuhkan untuk membuat diskon baru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateDiskon"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1262,6 +1578,7 @@
             "get": {
                 "tags": ["diskon"],
                 "summary": "Display the specified resource.",
+                "operationId": "diskon",
                 "parameters": [
                     {
                         "name": "diskon",
@@ -1281,6 +1598,7 @@
             "patch": {
                 "tags": ["diskon"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "diskon",
                 "parameters": [
                     {
                         "name": "diskon",
@@ -1291,6 +1609,16 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "description": "Data yang dibutuhkan untuk mengubah diskon",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateDiskon"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1300,6 +1628,7 @@
             "delete": {
                 "tags": ["diskon"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "diskon",
                 "parameters": [
                     {
                         "name": "diskon",
@@ -1321,6 +1650,37 @@
             "get": {
                 "tags": ["biaya-sekolah"],
                 "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "security": [
                     {
                         "JWT": []
@@ -1330,6 +1690,16 @@
             "post": {
                 "tags": ["biaya-sekolah"],
                 "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Data yang dibutuhkan untuk membuat biaya sekolah baru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBiayaSekolah"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1341,6 +1711,7 @@
             "get": {
                 "tags": ["biaya-sekolah"],
                 "summary": "Display the specified resource.",
+                "operationId": "biayaSekolah",
                 "parameters": [
                     {
                         "name": "biayaSekolah",
@@ -1360,6 +1731,7 @@
             "put": {
                 "tags": ["biaya-sekolah"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "biayaSekolah",
                 "parameters": [
                     {
                         "name": "biayaSekolah",
@@ -1370,6 +1742,16 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "description": "Data yang dibutuhkan untuk mengubah biaya sekolah",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateBiayaSekolah"
+                            }
+                        }
+                    }
+                },
                 "security": [
                     {
                         "JWT": []
@@ -1379,6 +1761,7 @@
             "delete": {
                 "tags": ["biaya-sekolah"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "biayaSekolah",
                 "parameters": [
                     {
                         "name": "biayaSekolah",
@@ -1461,6 +1844,7 @@
             "get": {
                 "tags": ["kategori-hari"],
                 "summary": "Display the specified resource.",
+                "operationId": "kategoriHari",
                 "parameters": [
                     {
                         "name": "kategoriHari",
@@ -1480,6 +1864,7 @@
             "put": {
                 "tags": ["kategori-hari"],
                 "summary": "Update the specified resource in storage.",
+                "operationId": "kategoriHari",
                 "parameters": [
                     {
                         "name": "kategoriHari",
@@ -1509,9 +1894,542 @@
             "delete": {
                 "tags": ["kategori-hari"],
                 "summary": "Remove the specified resource from storage.",
+                "operationId": "kategoriHari",
                 "parameters": [
                     {
                         "name": "kategoriHari",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/kategori-waktu": {
+            "get": {
+                "tags": ["kategori-waktu"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["kategori-waktu"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Data yang digunakan untuk membuat kategori waktu baru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateKategoriWaktu"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/kategori-waktu/{kategoriWaktu}": {
+            "get": {
+                "tags": ["kategori-waktu"],
+                "summary": "Display the specified resource.",
+                "operationId": "kategoriWaktu",
+                "parameters": [
+                    {
+                        "name": "kategoriWaktu",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": ["kategori-waktu"],
+                "summary": "Update the specified resource in storage.",
+                "operationId": "kategoriWaktu",
+                "parameters": [
+                    {
+                        "name": "kategoriWaktu",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data yang digunakan untuk mengubah kategori waktu",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateKategoriWaktu"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["kategori-waktu"],
+                "summary": "Remove the specified resource from storage.",
+                "operationId": "kategoriWaktu",
+                "parameters": [
+                    {
+                        "name": "kategoriWaktu",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/kurikulum": {
+            "get": {
+                "tags": ["kurikulum"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["kurikulum"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Data yang digunakan untuk membuat kurikulum baru",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateKurikulum"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/kurikulum/{kurikulum}": {
+            "get": {
+                "tags": ["kurikulum"],
+                "summary": "Display the specified resource.",
+                "operationId": "kurikulum",
+                "parameters": [
+                    {
+                        "name": "kurikulum",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["kurikulum"],
+                "summary": "Update the specified resource in storage.",
+                "operationId": "kurikulum",
+                "parameters": [
+                    {
+                        "name": "kurikulum",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Data yang digunakan untuk mengubah kurikulum",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateKurikulum"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["kurikulum"],
+                "summary": "Remove the specified resource from storage.",
+                "operationId": "kurikulum",
+                "parameters": [
+                    {
+                        "name": "kurikulum",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tingkat-kelas": {
+            "get": {
+                "tags": ["tingkat-kelas"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["tingkat-kelas"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Create Tingkat Kelas",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTingkatKelas"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/tingkat-kelas/{tingkatKelas}": {
+            "get": {
+                "tags": ["tingkat-kelas"],
+                "summary": "Display the specified resource.",
+                "operationId": "tingkatKelas",
+                "parameters": [
+                    {
+                        "name": "tingkatKelas",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["tingkat-kelas"],
+                "summary": "Update the specified resource in storage.",
+                "operationId": "tingkatKelas",
+                "parameters": [
+                    {
+                        "name": "tingkatKelas",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update Tingkat Kelas",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTingkatKelas"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["tingkat-kelas"],
+                "summary": "Remove the specified resource from storage.",
+                "operationId": "tingkatKelas",
+                "parameters": [
+                    {
+                        "name": "tingkatKelas",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/jurusan": {
+            "get": {
+                "tags": ["jurusan"],
+                "summary": "Display a listing of the resource.",
+                "parameters": [
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Limit the number of jenis tingkat lomba data returned",
+                        "required": false,
+                        "schema": {
+                            "default": 10,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filter by status",
+                        "required": false,
+                        "schema": {
+                            "enum": [["A", "D"]],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search by keyword",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": ["jurusan"],
+                "summary": "Store a newly created resource in storage.",
+                "requestBody": {
+                    "description": "Create Jurusan",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateJurusan"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/jurusan/{jurusan}": {
+            "get": {
+                "tags": ["jurusan"],
+                "summary": "Display the specified resource.",
+                "operationId": "jurusan",
+                "parameters": [
+                    {
+                        "name": "jurusan",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": ["jurusan"],
+                "summary": "Update the specified resource in storage.",
+                "operationId": "jurusan",
+                "parameters": [
+                    {
+                        "name": "jurusan",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update Jurusan",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateJurusan"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["jurusan"],
+                "summary": "Remove the specified resource from storage.",
+                "operationId": "jurusan",
+                "parameters": [
+                    {
+                        "name": "jurusan",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -1565,6 +2483,50 @@
                         "type": "string"
                     },
                     "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateBiayaSekolah": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "harga": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateBiayaSekolah": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "harga": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateDiskon": {
+                "type": "object",
+                "properties": {
+                    "foo": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateDiskon": {
+                "type": "object",
+                "properties": {
+                    "foo": {
                         "type": "string"
                     }
                 }
@@ -1633,6 +2595,28 @@
                     }
                 }
             },
+            "CreateJabatanGuru": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateJabatanGuru": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
             "CreateJenisTingkatLomba": {
                 "type": "object",
                 "properties": {
@@ -1645,6 +2629,28 @@
                 }
             },
             "UpdateJenisTingkatLomba": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateJurusan": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateJurusan": {
                 "type": "object",
                 "properties": {
                     "nama": {
@@ -1671,6 +2677,80 @@
                 "properties": {
                     "nama": {
                         "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateKategoriKegiatan": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string",
+                        "uniqueItems": true
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateKategoriKegiatan": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string",
+                        "uniqueItems": true
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateKategoriWaktu": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateKategoriWaktu": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CreateKurikulum": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "tahun": {
+                        "type": "integer"
+                    },
+                    "status": {
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateKurikulum": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "tahun": {
+                        "type": "integer"
                     },
                     "status": {
                         "type": "string"
@@ -1887,6 +2967,36 @@
                         "type": "string"
                     },
                     "orang_tua_id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "CreateTingkatKelas": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "integer"
+                    },
+                    "jurusan_id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "UpdateTingkatKelas": {
+                "type": "object",
+                "properties": {
+                    "nama": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "status": {
+                        "type": "integer",
+                        "nullable": true
+                    },
+                    "jurusan_id": {
                         "type": "integer"
                     }
                 }

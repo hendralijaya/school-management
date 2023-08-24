@@ -29,20 +29,18 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         $filters = [
-            'per_page' => $request->input('per_page'),
+            'per_page' => $request->input('per_page', 10),
             'gender' => $request->input('gender'),
             'status' => $request->input('status'),
             'search' => $request->input('search'),
         ];
-
-        $perPage = $filters['per_page'] ?? 10;
 
         $adminQuery = Admin::query()
             ->when($filters['gender'], fn ($query, $gender) => $query->filterByGender($gender))
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status))
             ->when($filters['search'], fn ($query, $search) => $query->search($search));
 
-        $admin = $adminQuery->paginate($perPage);
+        $admin = $adminQuery->paginate($filters['per_page']);
 
         if ($admin->isEmpty()) {
             return response()->api(null, 'Tidak ada data admin', null, Response::HTTP_NOT_FOUND);

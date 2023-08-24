@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Jadwal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,11 @@ class MataPelajaran extends Model
     ];
     public $timestamps = false;
     use HasFactory;
+
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class);
+    }
 
     public function scopeFilterByStatus(Builder $query, string $status)
     {

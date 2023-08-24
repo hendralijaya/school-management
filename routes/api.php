@@ -6,14 +6,18 @@ use App\Http\Controllers\API\v1\GuruController;
 use App\Http\Controllers\API\v1\RoleController;
 use App\Http\Controllers\API\v1\UserController;
 use App\Http\Controllers\API\v1\AdminController;
+use App\Http\Controllers\API\v1\KelasController;
+use App\Http\Controllers\API\v1\LiburController;
 use App\Http\Controllers\API\v1\RuangController;
 use App\Http\Controllers\API\v1\SiswaController;
 use App\Http\Controllers\API\v1\DiskonController;
+use App\Http\Controllers\API\v1\JurusanController;
 use App\Http\Controllers\API\v1\OrangTuaController;
 use App\Http\Controllers\API\v1\KurikulumController;
 use App\Http\Controllers\API\v1\JabatanGuruController;
 use App\Http\Controllers\API\v1\BiayaSekolahController;
 use App\Http\Controllers\API\v1\KategoriHariController;
+use App\Http\Controllers\API\v1\TingkatKelasController;
 use App\Http\Controllers\API\v1\KategoriWaktuController;
 use App\Http\Controllers\API\v1\MataPelajaranController;
 use App\Http\Controllers\API\v1\KategoriKegiatanController;
@@ -183,4 +187,40 @@ Route::middleware('jwt.role:Admin')->prefix('v1/kurikulum')->group(function () {
     Route::post('/', [KurikulumController::class, 'store']);
     Route::put('/{kurikulum}', [KurikulumController::class, 'update']);
     Route::delete('/{kurikulum}', [KurikulumController::class, 'deactivate']);
+});
+
+// Route for tingkat kelas controller
+Route::middleware('jwt.role:Admin')->prefix('v1/tingkat-kelas')->group(function () {
+    Route::get('/', [TingkatKelasController::class, 'index']);
+    Route::get('/{tingkatKelas}', [TingkatKelasController::class, 'show']);
+    Route::post('/', [TingkatKelasController::class, 'store']);
+    Route::put('/{tingkatKelas}', [TingkatKelasController::class, 'update']);
+    Route::delete('/{tingkatKelas}', [TingkatKelasController::class, 'deactivate']);
+});
+
+// Route for jurusan controller
+Route::middleware('jwt.role:Admin')->prefix('v1/jurusan')->group(function () {
+    Route::get('/', [JurusanController::class, 'index']);
+    Route::get('/{jurusan}', [JurusanController::class, 'show']);
+    Route::post('/', [JurusanController::class, 'store']);
+    Route::put('/{jurusan}', [JurusanController::class, 'update']);
+    Route::delete('/{jurusan}', [JurusanController::class, 'deactivate']);
+});
+
+// Route for kelas controller
+Route::middleware('jwt.role:Admin')->prefix('v1/kelas')->group(function () {
+    Route::get('/', [KelasController::class, 'index']);
+    Route::get('/{kelas}', [KelasController::class, 'show']);
+    Route::post('/', [KelasController::class, 'store']);
+    Route::put('/{kelas}', [KelasController::class, 'update']);
+    Route::delete('/{kelas}', [KelasController::class, 'deactivate']);
+});
+
+// Route for Libur Controller
+Route::middleware('jwt.role:Admin')->prefix('v1/libur')->group(function () {
+    Route::get('/', [LiburController::class, 'index']);
+    Route::get('/generate_libur', [LiburController::class, 'generateLibur']);
+    Route::get('/{libur}', [LiburController::class, 'show']);
+    Route::post('/', [LiburController::class, 'store']);
+    Route::put('/{libur}', [LiburController::class, 'update']);
 });

@@ -26,18 +26,16 @@ class JenisTingkatLombaController extends Controller
     {
         $filters =
             [
-                'per_page' => $request->input('per_page'),
+                'per_page' => $request->input('per_page', 10),
                 'search' => $request->input('search'),
                 'status' => $request->input('status'),
             ];
 
-        $perPage = $filters['per_page'] ?? 10;
-
         $jenisTingkatLombaQuery = JenisTingkatLomba::query()
-            ->when($filters['search'], fn ($query, $search) => $query->where('nama', 'like', '%' . $search . '%'))
+            ->when($filters['search'], fn ($query, $search) => $query->search($search))
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status));
 
-        $jenisTingkatLomba = $jenisTingkatLombaQuery->paginate($perPage);
+        $jenisTingkatLomba = $jenisTingkatLombaQuery->paginate($filters['per_page']);
 
         if ($jenisTingkatLomba->isEmpty()) {
             return response()->api(null, 'Tidak ada data jenis tingkat lomba', null, Response::HTTP_NOT_FOUND);

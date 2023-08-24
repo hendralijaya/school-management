@@ -15,6 +15,10 @@ class JurusanSeeder extends Seeder
     {
         $data = [
             [
+                'nama' => 'Umum',
+                'status' => 'A',
+            ],
+            [
                 'nama' => 'IPA',
                 'status' => 'A',
             ],

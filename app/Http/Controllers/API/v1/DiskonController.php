@@ -26,18 +26,16 @@ class DiskonController extends Controller
     {
         $filters =
             [
-                'per_page' => $request->query('per_page'),
+                'per_page' => $request->query('per_page', 10),
                 'search' => $request->query('search'),
                 'status' => $request->query('status'),
             ];
-
-        $perPage = $filters['per_page'] ?? 10;
 
         $diskonQuery = Diskon::query()
             ->when($filters['search'], fn ($query, $search) => $query->search($search))
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status));
 
-        $diskon = $diskonQuery->paginate($perPage);
+        $diskon = $diskonQuery->paginate($filters['per_page']);
 
         if ($diskon->isEmpty()) {
             return response()->api(null, 'Tidak ada data diskon', null, Response::HTTP_NOT_FOUND);

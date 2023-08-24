@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('jurusan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama', 100);
+            $table->string('nama', 50)->unique();
             $table->enum('status', ['A', 'D'])->default('A');
         });
     }

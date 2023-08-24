@@ -27,18 +27,16 @@ class KategoriHariController extends Controller
     {
         $filters =
             [
-                'per_page' => $request->input('per_page'),
+                'per_page' => $request->input('per_page', 10),
                 'search' => $request->input('search'),
                 'status' => $request->input('status'),
             ];
-
-        $perPage = $filters['per_page'] ?? 10;
 
         $kategoriHariQuery = KategoriHari::query()
             ->when($filters['search'], fn ($query, $search) => $query->search($search))
             ->when($filters['status'], fn ($query, $status) => $query->filterByStatus($status));
 
-        $kategoriHari = $kategoriHariQuery->paginate($perPage);
+        $kategoriHari = $kategoriHariQuery->paginate($filters['per_page']);
 
         if ($kategoriHari->isEmpty()) {
             return response()->api(null, 'Tidak ada data kategori hari', null, Response::HTTP_NOT_FOUND);

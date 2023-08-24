@@ -166,9 +166,7 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'date_range_overlap' => 'Rentang tanggal overlap dengan data yang ada di tabel :table.',
     ],
 
     /*

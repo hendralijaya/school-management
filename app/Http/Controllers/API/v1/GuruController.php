@@ -29,14 +29,13 @@ class GuruController extends Controller
     public function index(Request $request)
     {
         $filters = [
+            'per_page' => $request->input('per_page', 10),
             'gender' => $request->input('gender'),
             'status' => $request->input('status'),
             'tgl_bergabung_from' => $request->input('tgl_bergabung_from'),
             'tgl_bergabung_to' => $request->input('tgl_bergabung_to'),
             'search' => $request->input('search'),
         ];
-
-        $perPage = 10; // Set your desired number of results per page.
 
         $guruQuery = Guru::query()
             ->when($filters['gender'], fn ($query, $gender) => $query->filterByGender($gender))
@@ -47,7 +46,7 @@ class GuruController extends Controller
             )
             ->when($filters['search'], fn ($query, $search) => $query->search($search));
 
-        $guru = $guruQuery->paginate($perPage);
+        $guru = $guruQuery->paginate($filters['per_page']);
 
         if ($guru->isEmpty()) {
             return response()->api(null, 'Tidak ada data guru', null, Response::HTTP_NOT_FOUND);
